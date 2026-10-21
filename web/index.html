@@ -1,0 +1,373 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Copiloto Brío</title>
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=Barlow+Condensed:wght@700&display=swap" rel="stylesheet" />
+<style>
+  :root {
+    --fondo: #f5f7f8;
+    --hoja: #ffffff;
+    --tinta: #1c2b3a;
+    --suave: #64717e;
+    --linea: #e1e6ea;
+    --rojo: #b3261e;
+    --verde: #2e6b4f;
+    --ambar: #a86b00;
+    --foco: #2f5f8f;
+  }
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --fondo: #12181f; --hoja: #19212a; --tinta: #e3e9ee; --suave: #93a0ac; --linea: #2a3540;
+      --rojo: #ef6a5f; --verde: #5fbf8f; --ambar: #e0b04a; --foco: #7fb0e0;
+    }
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--fondo); color: var(--tinta); font: 15px/1.6 "Public Sans", system-ui, -apple-system, sans-serif; }
+  button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; }
+  :focus-visible { outline: 2px solid var(--foco); outline-offset: 2px; border-radius: 4px; }
+
+  .app { display: grid; grid-template-columns: minmax(0, 1fr); grid-template-rows: auto minmax(0, 1fr); height: 100vh; }
+  .app.con-caso { grid-template-columns: minmax(0, 1fr) 320px; }
+  header { grid-column: 1 / -1; display: flex; align-items: baseline; gap: 12px; padding: 14px 24px; }
+  header h1 { margin: 0; font-size: 16px; font-weight: 700; }
+  header .modelo { font-size: 13px; color: var(--suave); }
+  header .espacio { flex: 1; }
+  .enlace { color: var(--suave); font-size: 14px; }
+  .enlace:hover { color: var(--tinta); }
+
+  main { display: flex; flex-direction: column; min-height: 0; }
+  #log { flex: 1; overflow-y: auto; padding: 8px 24px 24px; }
+  .columna { max-width: 720px; margin: 0 auto; display: flex; flex-direction: column; gap: 22px; }
+
+  .usuario { align-self: flex-end; max-width: 85%; background: var(--tinta); color: var(--hoja); padding: 9px 15px; border-radius: 16px 16px 4px 16px; white-space: pre-wrap; }
+  .agente p { margin: 0 0 8px; } .agente p:last-child { margin-bottom: 0; }
+  .agente ul { margin: 4px 0 8px; padding-left: 20px; }
+  .agente li { margin: 2px 0; }
+  .agente code { font-family: ui-monospace, Menlo, monospace; font-size: 13px; background: var(--linea); padding: 1px 5px; border-radius: 4px; }
+  .agente.error { color: var(--rojo); }
+
+  .pasos { display: flex; flex-wrap: wrap; gap: 4px 14px; margin-bottom: 10px; font-size: 13px; color: var(--suave); }
+  .paso { padding: 2px 0; border-bottom: 1px dashed transparent; }
+  .paso:hover, .paso[aria-expanded="true"] { color: var(--tinta); border-bottom-color: var(--suave); }
+  .paso .v { color: var(--verde); font-weight: 700; } .paso .x { color: var(--rojo); font-weight: 700; }
+  .detalle { font-size: 12px; background: var(--hoja); border: 1px solid var(--linea); border-radius: 8px; padding: 10px 12px; margin-bottom: 12px; }
+  .detalle div { color: var(--suave); margin-bottom: 6px; }
+  .detalle pre { margin: 0 0 6px; overflow-x: auto; max-height: 220px; white-space: pre-wrap; word-break: break-word; }
+
+  .pregunta { margin-top: 14px; padding-left: 12px; border-left: 3px solid var(--ambar); font-weight: 600; }
+  .acciones { display: flex; gap: 8px; margin-top: 10px; }
+  .boton { border: 1px solid var(--linea); background: var(--hoja); border-radius: 999px; padding: 6px 16px; font-weight: 500; }
+  .boton:hover { border-color: var(--suave); }
+  .boton.principal { background: var(--tinta); color: var(--hoja); border-color: var(--tinta); }
+
+  .trabajando { color: var(--suave); font-size: 14px; }
+  .trabajando::before { content: ""; display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: var(--suave); margin-right: 8px; vertical-align: middle; animation: latido 1.2s ease-in-out infinite; }
+  @keyframes latido { 50% { opacity: .25 } }
+
+  .bandeja { padding-top: 6vh; }
+  .bandeja h2 { font-size: 26px; letter-spacing: -0.02em; margin: 0 0 6px; }
+  .bandeja > p { color: var(--suave); margin: 0 0 22px; }
+  .solicitud { display: flex; justify-content: space-between; align-items: baseline; gap: 16px; width: 100%; text-align: left; padding: 14px 4px; border-bottom: 1px solid var(--linea); }
+  .solicitud:first-of-type { border-top: 1px solid var(--linea); }
+  .solicitud:hover .cliente { text-decoration: underline; text-underline-offset: 3px; }
+  .solicitud .cliente { font-weight: 600; }
+  .solicitud .meta { color: var(--suave); font-size: 14px; white-space: nowrap; }
+
+  form { padding: 12px 24px 20px; }
+  .caja { max-width: 720px; margin: 0 auto; display: flex; gap: 8px; background: var(--hoja); border: 1px solid var(--linea); border-radius: 14px; padding: 6px 6px 6px 14px; }
+  .caja:focus-within { border-color: var(--suave); }
+  textarea { flex: 1; resize: none; border: 0; outline: 0; font: inherit; background: transparent; color: var(--tinta); padding: 7px 0; min-height: 38px; max-height: 140px; }
+  .caja .boton { align-self: flex-end; }
+
+  aside { display: none; padding: 8px 24px 24px; overflow-y: auto; border-left: 1px solid var(--linea); }
+  .con-caso aside { display: block; }
+  .exp h2 { font-size: 18px; line-height: 1.3; margin: 0; }
+  .exp .meta { color: var(--suave); font-size: 14px; }
+  .sello {
+    display: inline-block; margin: 16px 0 2px; padding: 4px 12px 2px;
+    font-family: "Barlow Condensed", "Arial Narrow", sans-serif; font-weight: 700; font-size: 19px; letter-spacing: .06em; text-transform: uppercase;
+    border: 3px double currentColor; border-radius: 6px; transform: rotate(-3deg);
+  }
+  .sello.rojo { color: var(--rojo); } .sello.verde { color: var(--verde); }
+  .sello.nuevo { animation: estampar .35s cubic-bezier(.2, 1.6, .4, 1) both; }
+  @keyframes estampar { from { transform: rotate(-3deg) scale(1.5); opacity: 0 } to { transform: rotate(-3deg) scale(1); opacity: 1 } }
+
+  .avance { display: flex; gap: 6px; margin: 18px 0 4px; }
+  .avance span { flex: 1; height: 4px; border-radius: 2px; background: var(--linea); }
+  .avance span.hecho { background: var(--tinta); } .avance span.fallo { background: var(--rojo); }
+  .avance-texto { font-size: 13px; color: var(--suave); }
+
+  .exp h3 { font-size: 13px; font-weight: 600; color: var(--suave); margin: 24px 0 6px; }
+  .pend { list-style: none; margin: 0; padding: 0; font-size: 14px; }
+  .pend li { display: grid; grid-template-columns: 10px 1fr; gap: 8px; padding: 5px 0; }
+  .pend li::before { content: ""; width: 7px; height: 7px; border-radius: 50%; margin-top: 8px; background: var(--suave); }
+  .pend li.rojo::before { background: var(--rojo); } .pend li.ambar::before { background: var(--ambar); }
+  .pend small { display: block; color: var(--suave); font-size: 12px; line-height: 1.4; }
+  .ninguno { font-size: 14px; color: var(--suave); }
+  .archivos a { display: block; font-size: 14px; color: var(--foco); text-decoration: none; padding: 2px 0; }
+  .archivos a:hover { text-decoration: underline; }
+  .archivos details summary { font-size: 14px; color: var(--suave); cursor: pointer; padding: 4px 0; }
+  .archivos details a { padding-left: 14px; }
+
+  @media (max-width: 600px) { .ficha { overflow-x: auto; } .ficha table { min-width: 460px; } header { flex-wrap: wrap; } }
+  @media (max-width: 860px) {
+    .app.con-caso { grid-template-columns: 1fr; grid-template-rows: auto auto minmax(0, 1fr); height: auto; min-height: 100vh; }
+    .con-caso aside { grid-row: 2; padding-bottom: 8px; border-bottom: 1px solid var(--linea); }
+    .con-caso main { grid-row: 3; min-height: 70vh; }
+    #log, form, header, aside { padding-left: 16px; padding-right: 16px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .sello.nuevo, .trabajando::before { animation: none; } }
+
+  .marca { font-size: 13px; color: var(--suave); }
+  .demo { font-size: 12px; color: var(--ambar); border: 1px solid var(--ambar); border-radius: 999px; padding: 1px 10px; }
+  .ficha { margin-top: 12px; border: 1px solid var(--linea); border-radius: 10px; background: var(--hoja); font-size: 13px; overflow: hidden; }
+  .ficha table { width: 100%; border-collapse: collapse; }
+  .ficha th, .ficha td { text-align: right; padding: 6px 10px; border-bottom: 1px solid var(--linea); font-variant-numeric: tabular-nums; }
+  .ficha th:first-child, .ficha td:first-child { text-align: left; }
+  .ficha th { color: var(--suave); font-weight: 600; font-size: 12px; }
+  .ficha tr.total td { font-weight: 700; }
+  .ficha .neg { color: var(--rojo); } .ficha .pos { color: var(--verde); }
+  .ficha .pie { padding: 8px 10px; color: var(--suave); font-size: 12px; line-height: 1.5; }
+  .ficha .pie b { color: var(--tinta); font-weight: 600; }
+  .cita { margin-top: 10px; padding: 8px 12px; border-left: 3px solid var(--foco); background: var(--hoja); font-size: 13px; }
+  .cita small { display: block; color: var(--suave); margin-top: 4px; }
+  .verif { display: inline-flex; align-items: center; gap: 6px; margin-top: 10px; font-size: 12px; padding: 3px 10px; border-radius: 999px; border: 1px solid var(--linea); }
+  .verif.ok { color: var(--verde); border-color: var(--verde); }
+  .verif.mal { color: var(--rojo); border-color: var(--rojo); font-weight: 600; }
+  .fb { display: inline-flex; gap: 4px; margin-left: 8px; vertical-align: middle; }
+  .fb button { font-size: 14px; padding: 2px 6px; border-radius: 6px; opacity: .6; }
+  .fb button:hover, .fb button.marcado { opacity: 1; background: var(--linea); }
+  .ejemplo { display: block; width: 100%; text-align: left; padding: 12px 4px; border-bottom: 1px solid var(--linea); }
+  .ejemplo:first-of-type { border-top: 1px solid var(--linea); }
+  .ejemplo:hover { text-decoration: underline; text-underline-offset: 3px; }
+  .principios { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; margin: 0 0 22px; }
+  .principios div { border: 1px solid var(--linea); border-radius: 10px; padding: 10px 12px; background: var(--hoja); font-size: 13px; color: var(--suave); }
+  .principios b { display: block; color: var(--tinta); font-size: 14px; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<div class="app" id="app">
+  <header>
+    <h1>Copiloto Brío</h1>
+    <span class="marca">Almena Foods · Análisis comercial</span>
+    <span class="demo" title="La tabla de ventas y los estudios son sintéticos, creados para la prueba">Datos sintéticos</span>
+    <span class="modelo" id="modelo"></span>
+    <span class="espacio"></span>
+    <button class="enlace" id="nueva" type="button">Nueva conversación</button>
+  </header>
+
+  <main>
+    <div id="log" aria-live="polite"><div class="columna" id="columna"></div></div>
+    <form id="form">
+      <div class="caja">
+        <textarea id="input" rows="1" aria-label="Pregunta para el copiloto" placeholder="Pregunta sobre las ventas de Brío…"></textarea>
+        <button class="boton principal" id="enviar" type="submit">Enviar</button>
+      </div>
+    </form>
+  </main>
+</div>
+
+<script>
+const $ = (id) => document.getElementById(id)
+const store = {
+  get(k) { try { return localStorage.getItem(k) } catch { return null } },
+  set(k, v) { try { localStorage.setItem(k, v) } catch {} },
+}
+let sessionId = store.get("sessionId") || crypto.randomUUID()
+store.set("sessionId", sessionId)
+let accessKey = store.get("accessKey") || ""
+let turno = 0
+
+const CORTO = { brio_consultar_ventas: "Ventas", brio_definicion: "Definición", brio_buscar_estudios: "Estudios", brio_dimensiones: "Alcance" }
+const AGRUP = { mes: "Mes", trimestre: "Trimestre", anio: "Año", canal: "Canal", region: "Región", total: "" }
+
+async function api(path, opts = {}) {
+  const headers = { "Content-Type": "application/json", ...(accessKey ? { "x-access-key": accessKey } : {}) }
+  const res = await fetch(path, { ...opts, headers })
+  if (res.status === 401) {
+    accessKey = prompt("Este copiloto requiere una clave de acceso:") || ""
+    store.set("accessKey", accessKey)
+    if (accessKey) return api(path, opts)
+  }
+  return res
+}
+
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c])
+
+function md(texto) {
+  const inline = (t) => esc(t).replace(/`([^`]+)`/g, "<code>$1</code>").replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+  const out = []
+  let lista = null
+  const cerrar = () => { if (lista) { out.push(`<ul>${lista.join("")}</ul>`); lista = null } }
+  for (const linea of String(texto).split("\n")) {
+    const m = linea.match(/^(\s*)[-*•]\s+(.*)/) || linea.match(/^(\s*)\d+[.)]\s+(.*)/)
+    if (m) {
+      const nivel = Math.min(3, Math.floor(m[1].replace(/\t/g, "  ").length / 2))
+      ;(lista ||= []).push(`<li style="margin-left:${nivel * 18}px">${inline(m[2])}</li>`)
+      continue
+    }
+    cerrar()
+    if (/^\s*-{3,}\s*$/.test(linea)) continue
+    if (linea.trim()) out.push(`<p>${inline(linea.replace(/^#+\s*/, ""))}</p>`)
+  }
+  cerrar()
+  return out.join("")
+}
+
+function pasosHtml(toolCalls) {
+  if (!toolCalls || !toolCalls.length) return ""
+  return `<div class="pasos">${toolCalls.map((t, i) => `<button type="button" class="paso" aria-expanded="false" data-i="${i}" title="Ver detalle técnico">
+    <span class="${t.ok ? "v" : "x"}">${t.ok ? "✓" : "✗"}</span> ${esc(CORTO[t.nombre] || t.nombre)}</button>`).join("")}</div>`
+}
+
+const signo = (s) => (s && s.trim().startsWith("-") ? "neg" : s && s.trim().startsWith("+") ? "pos" : "")
+
+// La tabla y la ficha se construyen con el resultado de la herramienta, NO con el texto del modelo.
+function fichasHtml(toolCalls) {
+  let html = ""
+  for (const t of toolCalls || []) {
+    const d = t.ok && t.resultado && t.resultado.data
+    if (!d) continue
+    if (t.nombre === "brio_consultar_ventas") {
+      const comp = !!d.periodo_comparado
+      const filas = d.filas.length ? d.filas : []
+      const fila = (f, total) => `<tr class="${total ? "total" : ""}"><td>${esc(f.grupo)}</td><td>${esc(f.valor_fmt)}</td>${comp ? `<td>${esc(f.comparado_fmt || "")}</td><td class="${signo(f.variacion_fmt)}">${esc(f.variacion_fmt || "")}</td>` : ""}</tr>`
+      const filtros = [d.filtros.canal && `canal ${d.filtros.canal}`, d.filtros.region && `región ${d.filtros.region}`].filter(Boolean).join(", ")
+      html += `<div class="ficha"><table>
+        <tr><th>${esc(AGRUP[d.agrupar_por] || d.ficha.metrica)}</th><th>${esc(d.periodo.desde)} a ${esc(d.periodo.hasta)}</th>${comp ? `<th>${esc(d.periodo_comparado.desde)} a ${esc(d.periodo_comparado.hasta)}</th><th>Variación</th>` : ""}</tr>
+        ${filas.map((f) => fila(f, false)).join("")}${fila(d.total, true)}
+      </table>
+      <div class="pie"><b>${esc(d.ficha.metrica)}</b> = ${esc(d.ficha.definicion)}${filtros ? ` · ${esc(filtros)}` : ""}<br>
+        Fuente: ${esc(d.ficha.fuente)} · Corte ${esc(d.ficha.corte)} · Valida: ${esc(d.ficha.responsable_validacion)} · Consulta ${esc(d.ficha.consulta_id)}
+        ${d.advertencias && d.advertencias.length ? `<br>⚠️ ${esc(d.advertencias.join(" "))}` : ""}</div></div>`
+    }
+    if (t.nombre === "brio_definicion" && d.comparacion) {
+      html += `<div class="ficha"><table><tr><th>Reporte</th><th>${esc(d.periodo.desde)} a ${esc(d.periodo.hasta)}</th><th>Diferencia vs definición única</th></tr>
+        ${d.comparacion.map((c) => `<tr class="${c.id === "finanzas" ? "total" : ""}"><td>${esc(c.reporte)}</td><td>${esc(c.valor_fmt)}</td><td>${c.id === "finanzas" ? "—" : esc(c.diferencia_fmt) + " (" + esc(c.diferencia_pct_fmt) + ")"}</td></tr>`).join("")}
+      </table><div class="pie"><b>Definición única:</b> ${esc(d.definicion_unica.formula)} · ${esc(d.estado)}</div></div>`
+    }
+    if (t.nombre === "brio_buscar_estudios") {
+      html += d.fragmentos.map((f) => `<div class="cita">“${esc(f.texto)}”<small>${esc(f.estudio)} · ${esc(f.seccion)} · ${esc(f.fecha)}</small></div>`).join("")
+    }
+  }
+  return html
+}
+
+function verifHtml(v) {
+  if (!v || !v.cifras) return ""
+  if (!v.no_verificadas.length) return `<span class="verif ok" title="Cada cifra del texto coincide con un resultado de la tabla validada o de los estudios">✓ ${v.verificadas} de ${v.cifras} cifras verificadas contra los datos</span>`
+  return `<span class="verif mal" title="Estas cifras del texto no salen de ninguna consulta. No las uses sin revisarlas.">⚠ Cifras sin respaldo: ${esc(v.no_verificadas.join(", "))}</span>`
+}
+
+function agregar(ev) {
+  const div = document.createElement("div")
+  if (ev.rol === "usuario") {
+    div.className = "usuario"
+    div.textContent = ev.texto
+  } else {
+    const idx = ++turno
+    div.className = "agente" + (ev.error ? " error" : "")
+    div.innerHTML = pasosHtml(ev.toolCalls) + `<div class="det-slot"></div>` + md(ev.texto || "") + fichasHtml(ev.toolCalls) +
+      `<div>${verifHtml(ev.verificacion)}${ev.error ? "" : `<span class="fb"><button type="button" data-u="1" title="Respuesta útil">👍</button><button type="button" data-u="0" title="Tiene un error">👎</button></span>`}</div>`
+    div.querySelectorAll(".paso").forEach((b) => {
+      b.onclick = () => {
+        const abierto = b.getAttribute("aria-expanded") === "true"
+        div.querySelectorAll(".paso").forEach((x) => x.setAttribute("aria-expanded", "false"))
+        const slot = div.querySelector(".det-slot")
+        if (abierto) { slot.innerHTML = ""; return }
+        b.setAttribute("aria-expanded", "true")
+        const t = ev.toolCalls[Number(b.dataset.i)]
+        slot.innerHTML = `<div class="detalle"><div>Herramienta <code>${esc(t.nombre)}</code> · ${esc(t.resumen || "")}</div>
+          <pre>${esc("argumentos: " + JSON.stringify(t.args, null, 2))}</pre><pre>${esc("resultado: " + JSON.stringify(t.resultado, null, 2))}</pre></div>`
+      }
+    })
+    div.querySelectorAll(".fb button").forEach((b) => {
+      b.onclick = async () => {
+        div.querySelectorAll(".fb button").forEach((x) => x.classList.remove("marcado"))
+        b.classList.add("marcado")
+        const util = b.dataset.u === "1"
+        const comentario = util ? "" : (prompt("¿Qué estaba mal? (opcional)") || "")
+        try { await api("/api/feedback", { method: "POST", body: JSON.stringify({ sessionId, indice: idx, util, comentario }) }) } catch {}
+      }
+    })
+  }
+  $("columna").appendChild(div)
+  $("log").scrollTop = $("log").scrollHeight
+}
+
+async function mostrarInicio() {
+  let ejemplos = []
+  try { const r = await api("/api/ejemplos"); if (r.ok) ejemplos = (await r.json()).ejemplos } catch {}
+  const div = document.createElement("div")
+  div.className = "bandeja"
+  div.id = "bandeja"
+  div.innerHTML = `<h2>¿Qué quieres saber de Brío?</h2>
+    <p>Pregunta en lenguaje normal. Las cifras salen de la tabla validada de ventas, no las calcula la IA.</p>
+    <div class="principios">
+      <div><b>Una sola cifra</b>Ventas netas = brutas − descuentos − devoluciones</div>
+      <div><b>Con su fuente</b>Cada respuesta trae corte, definición y responsable</div>
+      <div><b>Verificada</b>Si una cifra del texto no tiene respaldo, se marca</div>
+      <div><b>Tú decides</b>El copiloto describe; la decisión es del analista</div>
+    </div>
+    ${ejemplos.map((e) => `<button class="ejemplo" type="button">${esc(e)}</button>`).join("")}`
+  div.querySelectorAll(".ejemplo").forEach((b) => (b.onclick = () => enviar(b.textContent)))
+  $("columna").appendChild(div)
+}
+
+let ocupado = false
+async function enviar(texto) {
+  if (ocupado || !texto.trim()) return
+  ocupado = true
+  $("enviar").disabled = true
+  $("bandeja")?.remove()
+  agregar({ rol: "usuario", texto })
+  const espera = document.createElement("div")
+  espera.className = "trabajando"
+  const inicio = Date.now()
+  const pintar = () => { espera.textContent = `Consultando… ${Math.round((Date.now() - inicio) / 1000)} s` }
+  pintar()
+  const reloj = setInterval(pintar, 1000)
+  $("columna").appendChild(espera)
+  $("log").scrollTop = $("log").scrollHeight
+  try {
+    const res = await api("/api/chat", { method: "POST", body: JSON.stringify({ sessionId, message: texto }) })
+    const data = await res.json()
+    if (!res.ok) agregar({ rol: "asistente", texto: data.error || "El servidor no pudo procesar el mensaje.", error: true })
+    else agregar({ rol: "asistente", texto: data.reply, toolCalls: data.toolCalls, verificacion: data.verificacion, error: data.error })
+  } catch {
+    agregar({ rol: "asistente", texto: "No hay conexión con el servidor. Revisa tu conexión y vuelve a enviar la pregunta.", error: true })
+  } finally {
+    clearInterval(reloj)
+    espera.remove()
+    ocupado = false
+    $("enviar").disabled = false
+    $("input").focus()
+  }
+}
+
+$("form").onsubmit = (e) => { e.preventDefault(); const t = $("input").value; $("input").value = ""; enviar(t) }
+$("input").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shiftKey) { e.preventDefault(); $("form").requestSubmit() } })
+$("nueva").onclick = () => { store.set("sessionId", crypto.randomUUID()); location.reload() }
+
+async function iniciar() {
+  try {
+    const h = await (await fetch("/api/health")).json()
+    $("modelo").textContent = h.llm_configurado ? h.model : "Modelo no configurado"
+  } catch { $("modelo").textContent = "Sin conexión" }
+  let historial = []
+  try {
+    const rs = await api(`/api/sessions/${sessionId}`)
+    if (rs.ok) historial = (await rs.json()).historial
+  } catch {}
+  if (!historial.length) mostrarInicio()
+  historial.forEach((ev) => agregar(ev))
+}
+iniciar()
+</script>
+</body>
+</html>

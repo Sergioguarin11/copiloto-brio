@@ -1,0 +1,769 @@
+{
+  "producto": "Copiloto de análisis Brío con cifras confiables",
+  "proceso": "Scrum",
+  "repositorio": "https://github.com/Sergioguarin11/copiloto-brio",
+  "epicas": [
+    {
+      "clave": "E0",
+      "titulo": "Prototipo para la prueba (datos sintéticos)",
+      "descripcion": "Demostración funcional del copiloto con datos sintéticos, validada contra cálculo manual y probada con IA.",
+      "estado": "In Progress",
+      "features": [
+        {
+          "clave": "F0.1",
+          "titulo": "Prototipo funcional y evidencia",
+          "estado": "In Progress",
+          "pbis": [
+            {
+              "titulo": "PROTO-01 · Tabla validada sintética de ventas de Brío",
+              "historia": "Como Ingeniero de Producto IA, quiero una tabla de ventas sintética con la definición única, para demostrar el copiloto sin datos reales.",
+              "criterios": [
+                "Ventas netas 2025 = COP 36.000 M, igual al dato confirmado del archivo 03",
+                "Neta = brutas − descuentos − devoluciones en cada fila"
+              ],
+              "esfuerzo": 3,
+              "prioridad": 1,
+              "valor": 80,
+              "estado": "Done",
+              "tags": [
+                "Prototipo"
+              ]
+            },
+            {
+              "titulo": "PROTO-02 · Herramientas de consulta y ficha de trazabilidad",
+              "historia": "Como analista, quiero que cada cifra venga de una consulta con fuente, corte y definición, para confiar en ella.",
+              "criterios": [
+                "La IA no calcula cifras: las devuelve la herramienta ya formateadas",
+                "Fuera de corte o dimensión inexistente: 'no tengo el dato'"
+              ],
+              "esfuerzo": 8,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "Done",
+              "tags": [
+                "Prototipo"
+              ]
+            },
+            {
+              "titulo": "PROTO-03 · Verificador de cifras en el servidor",
+              "historia": "Como analista, quiero que el sistema marque cualquier cifra del texto sin respaldo, para no usar números inventados.",
+              "criterios": [
+                "Una respuesta fiel pasa; una cifra inventada se detecta (demo.ts V01 y V02)"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "Done",
+              "tags": [
+                "Prototipo"
+              ]
+            },
+            {
+              "titulo": "PROTO-04 · Batería de referencia validada contra cálculo manual",
+              "historia": "Como Ingeniero de Producto IA, quiero comparar las herramientas con un cálculo manual independiente, para salir al piloto con 0 diferencias.",
+              "criterios": [
+                "18 preguntas; esperados calculados en Python",
+                "demo.ts: 0 diferencias"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 1,
+              "valor": 90,
+              "estado": "Done",
+              "tags": [
+                "Prototipo"
+              ]
+            },
+            {
+              "titulo": "PROTO-05 · Canales web y Telegram con retroalimentación",
+              "historia": "Como analista, quiero preguntar desde la web o Telegram y marcar si la respuesta fue útil, para medir utilidad en el piloto.",
+              "criterios": [
+                "Telegram con lista blanca de usuarios",
+                "Botones útil / tiene un error registrados en out/feedback.jsonl"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "Done",
+              "tags": [
+                "Prototipo"
+              ]
+            },
+            {
+              "titulo": "PROTO-06 · Prueba real con IA sobre la batería",
+              "historia": "Como Ingeniero de Producto IA, quiero correr la batería por el copiloto completo con el modelo, para documentar qué funciona y qué no.",
+              "criterios": [
+                "out/evaluacion.md con consulta correcta, exactitud, honestidad y cifras sin respaldo"
+              ],
+              "esfuerzo": 3,
+              "prioridad": 1,
+              "valor": 90,
+              "estado": "Committed",
+              "tags": [
+                "Prototipo",
+                "Evidencia"
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "clave": "E1",
+      "titulo": "IA-01 · Copiloto de análisis Brío – Mercadeo",
+      "descripcion": "Copiloto que responde preguntas de ventas de Brío con cifras trazables sobre una definición única de ventas netas. Meta: −20 % de horas de análisis (umbral −10 %), 100 % de exactitud, 60 % de uso útil.",
+      "estado": "New",
+      "features": [
+        {
+          "clave": "F1.1",
+          "titulo": "Base de cifras confiables (Datos)",
+          "estado": "New",
+          "pbis": [
+            {
+              "titulo": "PBI-01 · Acordar la definición única de ventas netas",
+              "historia": "Como Responsable de Datos, quiero acordar la definición única de ventas netas, para que todos usen la misma cifra.",
+              "criterios": [
+                "Definición firmada por Mercadeo, Comercial, Finanzas y Datos",
+                "Comercial y Finanzas: 2-4 h"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Datos"
+              ],
+              "area": "Datos",
+              "horas": {
+                "datos": {
+                  "min": 4,
+                  "prob": 6,
+                  "max": 8
+                },
+                "expertos": {
+                  "min": 1,
+                  "prob": 2,
+                  "max": 3
+                }
+              }
+            },
+            {
+              "titulo": "PBI-02 · Inventariar fuentes de ventas de Brío y mapearlas a la definición",
+              "historia": "Como Responsable de Datos, quiero inventariar fuentes de ventas de Brío y mapearlas a la definición, para saber de dónde sale cada cifra.",
+              "criterios": [
+                "Inventario con fuente, dueño y corte por cada fuente"
+              ],
+              "esfuerzo": 3,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Datos"
+              ],
+              "area": "Datos",
+              "horas": {
+                "datos": {
+                  "min": 3,
+                  "prob": 4,
+                  "max": 6
+                }
+              }
+            },
+            {
+              "titulo": "PBI-03 · Construir la tabla validada de ventas de Brío",
+              "historia": "Como Responsable de Datos, quiero construir la tabla validada de ventas de Brío, para tener una sola fuente confiable.",
+              "criterios": [
+                "Tabla cuadra 100 % con el cierre de Finanzas en una muestra de meses",
+                "Alcance de meses y canales [Por confirmar]"
+              ],
+              "esfuerzo": 8,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Datos"
+              ],
+              "area": "Datos",
+              "horas": {
+                "ingenieria": {
+                  "min": 2,
+                  "prob": 4,
+                  "max": 6
+                },
+                "datos": {
+                  "min": 6,
+                  "prob": 8,
+                  "max": 12
+                }
+              }
+            },
+            {
+              "titulo": "PBI-04 · Implementar reglas de calidad sobre la tabla (absorbe IA-03)",
+              "historia": "Como Responsable de Datos, quiero implementar reglas de calidad sobre la tabla (absorbe IA-03), para detectar errores antes de que lleguen a un informe.",
+              "criterios": [
+                "Reglas activas y alertas registradas con causa",
+                "IA-03 sin IA"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Datos"
+              ],
+              "area": "Datos",
+              "horas": {
+                "datos": {
+                  "min": 3,
+                  "prob": 5,
+                  "max": 7
+                }
+              }
+            },
+            {
+              "titulo": "PBI-05 · Dar soporte de datos durante el piloto",
+              "historia": "Como Responsable de Datos, quiero dar soporte de datos durante el piloto, para resolver dudas de cifras a tiempo.",
+              "criterios": [
+                "Dudas atendidas en menos de 1 día hábil"
+              ],
+              "esfuerzo": 3,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Datos"
+              ],
+              "area": "Datos",
+              "horas": {
+                "datos": {
+                  "min": 2,
+                  "prob": 4,
+                  "max": 6
+                }
+              }
+            }
+          ]
+        },
+        {
+          "clave": "F1.2",
+          "titulo": "Copiloto y piloto con medición (Ingeniería)",
+          "estado": "New",
+          "pbis": [
+            {
+              "titulo": "PBI-06 · Definir criterios de aceptación y la batería de preguntas de referencia",
+              "historia": "Como analista de Mercadeo de Brío, quiero definir criterios de aceptación y la batería de preguntas de referencia, para saber qué es una respuesta correcta.",
+              "criterios": [
+                "Batería aprobada por Mercadeo con respuesta correcta calculada a mano"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 6,
+                  "prob": 8,
+                  "max": 10
+                },
+                "expertos": {
+                  "min": 2,
+                  "prob": 3,
+                  "max": 4
+                }
+              }
+            },
+            {
+              "titulo": "PBI-07 · Configurar el acceso al modelo de IA aprobado y el entorno",
+              "historia": "Como analista de Mercadeo de Brío, quiero configurar el acceso al modelo de IA aprobado y el entorno, para poder construir sobre una herramienta permitida.",
+              "criterios": [
+                "Entorno funcionando con el modelo aprobado por Seguridad",
+                "Depende de aprobación del modelo"
+              ],
+              "esfuerzo": 3,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 4,
+                  "prob": 6,
+                  "max": 10
+                }
+              }
+            },
+            {
+              "titulo": "PBI-08 · Construir la capa que convierte la pregunta en consulta sobre la tabla validada",
+              "historia": "Como analista de Mercadeo de Brío, quiero construir la capa que convierte la pregunta en consulta sobre la tabla validada, para que la IA no calcule cifras.",
+              "criterios": [
+                "90 % de la batería genera la consulta correcta",
+                "Núcleo técnico"
+              ],
+              "esfuerzo": 13,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 24,
+                  "prob": 32,
+                  "max": 45
+                }
+              }
+            },
+            {
+              "titulo": "PBI-09 · Construir la ficha de trazabilidad y la respuesta 'no tengo el dato'",
+              "historia": "Como analista de Mercadeo de Brío, quiero construir la ficha de trazabilidad y la respuesta 'no tengo el dato', para que el analista confíe en cada cifra.",
+              "criterios": [
+                "100 % de respuestas con fuente, corte, definición y responsable"
+              ],
+              "esfuerzo": 8,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 8,
+                  "prob": 12,
+                  "max": 16
+                }
+              }
+            },
+            {
+              "titulo": "PBI-10 · Construir la interfaz simple de preguntas",
+              "historia": "Como analista de Mercadeo de Brío, quiero construir la interfaz simple de preguntas, para que el analista pregunte en lenguaje normal.",
+              "criterios": [
+                "4 analistas la usan sin ayuda tras 30 minutos de inducción"
+              ],
+              "esfuerzo": 8,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 10,
+                  "prob": 16,
+                  "max": 24
+                }
+              }
+            },
+            {
+              "titulo": "PBI-11 · Implementar permisos y registro de preguntas y respuestas",
+              "historia": "Como analista de Mercadeo de Brío, quiero implementar permisos y registro de preguntas y respuestas, para controlar quién ve qué y auditar.",
+              "criterios": [
+                "Solo usuarios del piloto acceden; 100 % de interacciones registradas"
+              ],
+              "esfuerzo": 8,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 8,
+                  "prob": 10,
+                  "max": 14
+                }
+              }
+            },
+            {
+              "titulo": "PBI-12 · Evaluar contra la batería de preguntas y corregir",
+              "historia": "Como analista de Mercadeo de Brío, quiero evaluar contra la batería de preguntas y corregir, para llegar al piloto sin cifras erradas.",
+              "criterios": [
+                "100 % de cifras coinciden con el cálculo manual"
+              ],
+              "esfuerzo": 8,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 12,
+                  "prob": 18,
+                  "max": 26
+                },
+                "expertos": {
+                  "min": 2,
+                  "prob": 3,
+                  "max": 4
+                }
+              }
+            },
+            {
+              "titulo": "PBI-13 · Acompañar el piloto de 4 semanas y ajustar",
+              "historia": "Como analista de Mercadeo de Brío, quiero acompañar el piloto de 4 semanas y ajustar, para corregir rápido lo que falle.",
+              "criterios": [
+                "Retro semanal con analistas y ajustes cerrados"
+              ],
+              "esfuerzo": 13,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 14,
+                  "prob": 20,
+                  "max": 28
+                },
+                "expertos": {
+                  "min": 4,
+                  "prob": 6,
+                  "max": 8
+                }
+              }
+            },
+            {
+              "titulo": "PBI-14 · Montar la medición piloto vs control",
+              "historia": "Como analista de Mercadeo de Brío, quiero montar la medición piloto vs control, para saber si el copiloto mejora algo.",
+              "criterios": [
+                "Tablero con horas, reproceso, exactitud y uso por grupo"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 6,
+                  "prob": 8,
+                  "max": 10
+                }
+              }
+            },
+            {
+              "titulo": "PBI-15 · Documentar y traspasar a operación",
+              "historia": "Como analista de Mercadeo de Brío, quiero documentar y traspasar a operación, para que el área opere sin depender del proyecto.",
+              "criterios": [
+                "Manual y dueño de operación asignado"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 6,
+                  "prob": 8,
+                  "max": 10
+                }
+              }
+            }
+          ]
+        },
+        {
+          "clave": "F1.3",
+          "titulo": "Controles de seguridad (Seguridad)",
+          "estado": "New",
+          "pbis": [
+            {
+              "titulo": "PBI-16 · Revisar arquitectura, datos y proveedor del modelo",
+              "historia": "Como Responsable de Seguridad, quiero revisar arquitectura, datos y proveedor del modelo, para usar IA sin exponer información.",
+              "criterios": [
+                "Concepto de Seguridad aprobado antes de construir",
+                "Ventas sin datos personales [Por confirmar]"
+              ],
+              "esfuerzo": 3,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Seguridad"
+              ],
+              "area": "Seguridad",
+              "horas": {
+                "seguridad": {
+                  "min": 3,
+                  "prob": 4,
+                  "max": 6
+                }
+              }
+            },
+            {
+              "titulo": "PBI-17 · Validar permisos y registros antes del piloto",
+              "historia": "Como Responsable de Seguridad, quiero validar permisos y registros antes del piloto, para salir al piloto con controles.",
+              "criterios": [
+                "Checklist de Seguridad firmado"
+              ],
+              "esfuerzo": 2,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Seguridad"
+              ],
+              "area": "Seguridad",
+              "horas": {
+                "seguridad": {
+                  "min": 1,
+                  "prob": 2,
+                  "max": 3
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "clave": "E2",
+      "titulo": "Experimentos en paralelo para Dirección",
+      "descripcion": "Validar antes de construir los pedidos del CEO: promociones (IA-02), decisiones (IA-05) y creatividad condicionada (IA-04).",
+      "estado": "New",
+      "features": [
+        {
+          "clave": "F2.1",
+          "titulo": "IA-02 · Experimento de promociones por región",
+          "estado": "New",
+          "pbis": [
+            {
+              "titulo": "PBI-18 · Extraer el histórico de promociones y descuentos de Brío",
+              "historia": "Como Responsable de Datos, quiero extraer el histórico de promociones y descuentos de Brío, para tener base para diseñar el experimento.",
+              "criterios": [
+                "Histórico por región con descuento y fecha",
+                "Datos parciales"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "IA-02",
+                "Datos"
+              ],
+              "area": "Datos",
+              "horas": {
+                "datos": {
+                  "min": 4,
+                  "prob": 6,
+                  "max": 9
+                }
+              }
+            },
+            {
+              "titulo": "PBI-19 · Analizar el histórico y diseñar el experimento por regiones",
+              "historia": "Como Ingeniero de Producto IA, quiero analizar el histórico y diseñar el experimento por regiones, para probar si las promociones recomendadas venden más.",
+              "criterios": [
+                "Diseño con regiones piloto y control aprobado por Comercial y Finanzas",
+                "Comercial: 3-5 h"
+              ],
+              "esfuerzo": 8,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "IA-02",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 8,
+                  "prob": 12,
+                  "max": 18
+                },
+                "expertos": {
+                  "min": 1,
+                  "prob": 2,
+                  "max": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "clave": "F2.2",
+          "titulo": "IA-05 · Validación del asistente de decisiones",
+          "estado": "New",
+          "pbis": [
+            {
+              "titulo": "PBI-22 · Diseñar la rúbrica con Dirección y calificar la línea base",
+              "historia": "Como Ingeniero de Producto IA, quiero diseñar la rúbrica con Dirección y calificar la línea base, para tener por primera vez una métrica de calidad de decisión.",
+              "criterios": [
+                "Rúbrica aprobada y 5-6 documentos calificados",
+                "Dirección: 2-4 h [Por confirmar]"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "IA-05",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 6,
+                  "prob": 8,
+                  "max": 12
+                }
+              }
+            },
+            {
+              "titulo": "PBI-23 · Configurar el asistente revisor y ejecutar 3-4 sesiones",
+              "historia": "Como Ingeniero de Producto IA, quiero configurar el asistente revisor y ejecutar 3-4 sesiones, para probar si mejora la calidad del documento.",
+              "criterios": [
+                "Calificación ciega de documentos con y sin asistente"
+              ],
+              "esfuerzo": 8,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "IA-05",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 8,
+                  "prob": 12,
+                  "max": 16
+                }
+              }
+            },
+            {
+              "titulo": "PBI-24 · Revisar seguridad de contenido sensible",
+              "historia": "Como Responsable de Seguridad, quiero revisar seguridad de contenido sensible, para proteger información de Dirección.",
+              "criterios": [
+                "Concepto de Seguridad aprobado"
+              ],
+              "esfuerzo": 2,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "IA-05",
+                "Seguridad"
+              ],
+              "area": "Seguridad",
+              "horas": {
+                "seguridad": {
+                  "min": 1,
+                  "prob": 2,
+                  "max": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "clave": "F2.3",
+          "titulo": "IA-04 · Prueba creativa (condicionada)",
+          "estado": "New",
+          "pbis": [
+            {
+              "titulo": "PBI-20 · Revisar términos de la herramienta creativa existente",
+              "historia": "Como Responsable de Seguridad, quiero revisar términos de la herramienta creativa existente, para proteger derechos y datos de marca.",
+              "criterios": [
+                "Concepto de Seguridad sobre la herramienta",
+                "Condicionado (S-13)"
+              ],
+              "esfuerzo": 2,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "IA-04",
+                "Seguridad",
+                "Condicionado"
+              ],
+              "area": "Seguridad",
+              "horas": {
+                "seguridad": {
+                  "min": 1,
+                  "prob": 2,
+                  "max": 3
+                }
+              }
+            },
+            {
+              "titulo": "PBI-21 · Preparar guía y ejecutar la prueba creativa con 2-3 briefs",
+              "historia": "Como Ingeniero de Producto IA, quiero preparar guía y ejecutar la prueba creativa con 2-3 briefs, para saber si acelera piezas aprobadas.",
+              "criterios": [
+                "Piezas aprobadas y rondas de ajuste medidas",
+                "Condicionado (S-13)"
+              ],
+              "esfuerzo": 5,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "IA-04",
+                "Ingeniería",
+                "Condicionado"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 6,
+                  "prob": 8,
+                  "max": 12
+                },
+                "expertos": {
+                  "min": 4,
+                  "prob": 6,
+                  "max": 8
+                }
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

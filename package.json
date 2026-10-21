@@ -1,0 +1,22 @@
+{
+  "name": "copiloto-brio",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Copiloto de análisis Brío con cifras confiables (Almena Foods) - Prueba Ingeniero de Producto IA",
+  "scripts": {
+    "dev": "bun --watch src/server.ts",
+    "start": "bun src/server.ts",
+    "demo": "bun demo.ts",
+    "evaluar": "bun scripts/evaluar.ts",
+    "backlog": "bun scripts/backlog.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "zod": "4.1.12"
+  },
+  "devDependencies": {
+    "@types/bun": "1.2.23",
+    "typescript": "5.9.3"
+  }
+}

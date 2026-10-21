@@ -1,0 +1,23 @@
+{
+  "fuente": "datos/ventas_brio_validada.csv (tabla validada de ventas de Brío, DATOS SINTÉTICOS para la prueba)",
+  "corte": "2026-09-30",
+  "primer_mes": "2025-01",
+  "ultimo_mes": "2026-09",
+  "responsable_validacion": "Responsable de Datos (Gerencia de Datos)",
+  "estado_definicion": "Propuesta para el piloto; se firma en el PBI-01 con Mercadeo, Comercial, Finanzas y Datos",
+  "metricas": {
+    "ventas_netas": { "nombre": "Ventas netas", "formula": "ventas brutas − descuentos − devoluciones", "unidad": "COP", "definicion_unica": true },
+    "ventas_brutas": { "nombre": "Ventas brutas", "formula": "valor facturado antes de descuentos y devoluciones", "unidad": "COP" },
+    "descuentos": { "nombre": "Descuentos", "formula": "descuentos comerciales y promocionales otorgados", "unidad": "COP" },
+    "devoluciones": { "nombre": "Devoluciones", "formula": "valor de producto devuelto", "unidad": "COP" },
+    "unidades": { "nombre": "Unidades vendidas", "formula": "unidades netas despachadas", "unidad": "unidades" },
+    "descuento_pct": { "nombre": "Descuento sobre ventas brutas", "formula": "descuentos / ventas brutas", "unidad": "%" }
+  },
+  "definiciones_historicas": [
+    { "id": "comercial", "reporte": "Reporte de Comercial", "formula": "ventas brutas − descuentos", "diferencia": "No resta devoluciones" },
+    { "id": "mercadeo", "reporte": "Reporte de Mercadeo", "formula": "ventas brutas", "diferencia": "No resta descuentos ni devoluciones" },
+    { "id": "finanzas", "reporte": "Cierre de Finanzas", "formula": "ventas brutas − descuentos − devoluciones", "diferencia": "Es la definición única adoptada" }
+  ],
+  "canales": ["Tradicional", "Moderno", "Mayorista", "Digital"],
+  "regiones": ["Centro", "Antioquia y Eje Cafetero", "Caribe", "Pacífico", "Oriente"]
+}

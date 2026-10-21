@@ -1,0 +1,389 @@
+{
+  "descripcion": "Batería de preguntas de referencia. Esperados calculados en Python, independientes del código del copiloto.",
+  "preguntas": [
+    {
+      "id": "C01",
+      "pregunta": "¿Cuánto vendió Brío en ventas netas en 2025?",
+      "tipo": "cifra",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "ventas_netas",
+          "desde": "2025-01",
+          "hasta": "2025-12",
+          "agrupar_por": "total",
+          "comparar_con": "ninguna"
+        }
+      },
+      "esperado": {
+        "total": {
+          "valor_fmt": "COP 36.000,0 M"
+        }
+      },
+      "nota": "Debe cuadrar con COP 36.000 M del archivo 03"
+    },
+    {
+      "id": "C02",
+      "pregunta": "¿Cuánto vendió Brío en ventas netas en el tercer trimestre de 2026 frente al mismo trimestre de 2025?",
+      "tipo": "cifra",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "ventas_netas",
+          "desde": "2026-07",
+          "hasta": "2026-09",
+          "agrupar_por": "total",
+          "comparar_con": "mismo_periodo_anio_anterior"
+        }
+      },
+      "esperado": {
+        "total": {
+          "valor_fmt": "COP 8.356,2 M",
+          "comparado_fmt": "COP 9.077,2 M",
+          "variacion_fmt": "-7,9 %"
+        }
+      },
+      "nota": ""
+    },
+    {
+      "id": "C03",
+      "pregunta": "¿Cómo cambiaron las ventas netas por canal de enero a septiembre de 2026 frente al mismo periodo de 2025?",
+      "tipo": "cifra",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "ventas_netas",
+          "desde": "2026-01",
+          "hasta": "2026-09",
+          "agrupar_por": "canal",
+          "comparar_con": "mismo_periodo_anio_anterior"
+        }
+      },
+      "esperado": {
+        "total": {
+          "valor_fmt": "COP 24.737,2 M",
+          "comparado_fmt": "COP 26.346,5 M",
+          "variacion_fmt": "-6,1 %"
+        },
+        "filas": {
+          "Tradicional": {
+            "valor_fmt": "COP 12.263,4 M",
+            "variacion_fmt": "-10,4 %"
+          },
+          "Moderno": {
+            "valor_fmt": "COP 7.153,9 M",
+            "variacion_fmt": "-3,1 %"
+          },
+          "Mayorista": {
+            "valor_fmt": "COP 3.450,0 M",
+            "variacion_fmt": "-6,5 %"
+          },
+          "Digital": {
+            "valor_fmt": "COP 1.869,8 M",
+            "variacion_fmt": "+18,1 %"
+          }
+        }
+      },
+      "nota": ""
+    },
+    {
+      "id": "C04",
+      "pregunta": "¿Qué región cayó más en ventas netas en el tercer trimestre de 2026 frente al de 2025?",
+      "tipo": "cifra",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "ventas_netas",
+          "desde": "2026-07",
+          "hasta": "2026-09",
+          "agrupar_por": "region",
+          "comparar_con": "mismo_periodo_anio_anterior"
+        }
+      },
+      "esperado": {
+        "total": {
+          "valor_fmt": "COP 8.356,2 M",
+          "variacion_fmt": "-7,9 %"
+        },
+        "filas": {
+          "Centro": {
+            "valor_fmt": "COP 2.893,8 M",
+            "variacion_fmt": "-6,6 %"
+          },
+          "Antioquia y Eje Cafetero": {
+            "valor_fmt": "COP 1.869,0 M",
+            "variacion_fmt": "-6,6 %"
+          },
+          "Caribe": {
+            "valor_fmt": "COP 1.390,5 M",
+            "variacion_fmt": "-14,2 %"
+          },
+          "Pacífico": {
+            "valor_fmt": "COP 1.174,0 M",
+            "variacion_fmt": "-7,6 %"
+          },
+          "Oriente": {
+            "valor_fmt": "COP 1.028,9 M",
+            "variacion_fmt": "-5,1 %"
+          }
+        },
+        "mayor_caida": "Caribe"
+      },
+      "nota": ""
+    },
+    {
+      "id": "C05",
+      "pregunta": "¿Cuánto pesan los descuentos sobre las ventas brutas de enero a septiembre de 2026 frente a 2025?",
+      "tipo": "cifra",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "descuento_pct",
+          "desde": "2026-01",
+          "hasta": "2026-09",
+          "agrupar_por": "total",
+          "comparar_con": "mismo_periodo_anio_anterior"
+        }
+      },
+      "esperado": {
+        "total": {
+          "valor_fmt": "10,5 %",
+          "comparado_fmt": "8,0 %",
+          "variacion_fmt": "+2,6 pp"
+        }
+      },
+      "nota": ""
+    },
+    {
+      "id": "C06",
+      "pregunta": "¿Cuánto vendió Brío en el canal tradicional del Caribe en agosto de 2026?",
+      "tipo": "cifra",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "ventas_netas",
+          "desde": "2026-08",
+          "hasta": "2026-08",
+          "agrupar_por": "total",
+          "canal": "tradicional",
+          "region": "caribe",
+          "comparar_con": "ninguna"
+        }
+      },
+      "esperado": {
+        "total": {
+          "valor_fmt": "COP 225,8 M"
+        }
+      },
+      "nota": ""
+    },
+    {
+      "id": "C07",
+      "pregunta": "¿Cuánto sumaron las devoluciones de Brío en 2025?",
+      "tipo": "cifra",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "devoluciones",
+          "desde": "2025-01",
+          "hasta": "2025-12",
+          "agrupar_por": "total",
+          "comparar_con": "ninguna"
+        }
+      },
+      "esperado": {
+        "total": {
+          "valor_fmt": "COP 597,8 M"
+        }
+      },
+      "nota": ""
+    },
+    {
+      "id": "C08",
+      "pregunta": "¿Cómo fueron las ventas netas mes a mes en el tercer trimestre de 2026?",
+      "tipo": "cifra",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "ventas_netas",
+          "desde": "2026-07",
+          "hasta": "2026-09",
+          "agrupar_por": "mes",
+          "comparar_con": "ninguna"
+        }
+      },
+      "esperado": {
+        "total": {
+          "valor_fmt": "COP 8.356,2 M"
+        },
+        "filas": {
+          "2026-07": {
+            "valor_fmt": "COP 2.792,8 M"
+          },
+          "2026-08": {
+            "valor_fmt": "COP 2.821,2 M"
+          },
+          "2026-09": {
+            "valor_fmt": "COP 2.742,3 M"
+          }
+        }
+      },
+      "nota": ""
+    },
+    {
+      "id": "C09",
+      "pregunta": "¿Cuántas unidades vendió Brío en el canal digital de enero a septiembre de 2026?",
+      "tipo": "cifra",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "unidades",
+          "desde": "2026-01",
+          "hasta": "2026-09",
+          "agrupar_por": "total",
+          "canal": "Digital",
+          "comparar_con": "ninguna"
+        }
+      },
+      "esperado": {
+        "total": {
+          "valor_fmt": "389.551 unidades"
+        }
+      },
+      "nota": ""
+    },
+    {
+      "id": "D01",
+      "pregunta": "¿Por qué el reporte de Comercial y el de Finanzas dan cifras distintas de ventas netas en 2025?",
+      "tipo": "definicion",
+      "consulta": {
+        "herramienta": "brio_definicion",
+        "args": {
+          "comparar_desde": "2025-01",
+          "comparar_hasta": "2025-12"
+        }
+      },
+      "esperado": {
+        "comparacion": {
+          "finanzas": "COP 36.000,0 M",
+          "comercial": "COP 36.597,8 M",
+          "mercadeo": "COP 39.785,3 M",
+          "diferencia_comercial": "COP 597,8 M",
+          "diferencia_mercadeo": "COP 3.785,3 M"
+        }
+      },
+      "nota": ""
+    },
+    {
+      "id": "F01",
+      "pregunta": "¿Cuánto vendió Brío en octubre de 2026?",
+      "tipo": "fuera_de_alcance",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "ventas_netas",
+          "desde": "2026-10",
+          "hasta": "2026-10",
+          "agrupar_por": "total",
+          "comparar_con": "ninguna"
+        }
+      },
+      "esperado": {
+        "error_contiene": "No tengo ese dato"
+      },
+      "nota": "Posterior al corte"
+    },
+    {
+      "id": "F02",
+      "pregunta": "¿Cuánto vendió Brío en el canal de farmacias en 2025?",
+      "tipo": "fuera_de_alcance",
+      "consulta": {
+        "herramienta": "brio_consultar_ventas",
+        "args": {
+          "metrica": "ventas_netas",
+          "desde": "2025-01",
+          "hasta": "2025-12",
+          "agrupar_por": "total",
+          "canal": "Farmacias",
+          "comparar_con": "ninguna"
+        }
+      },
+      "esperado": {
+        "error_contiene": "No tengo el canal"
+      },
+      "nota": "Canal inexistente"
+    },
+    {
+      "id": "F03",
+      "pregunta": "¿Cuál fue el margen de Brío por canal en 2025?",
+      "tipo": "fuera_de_alcance",
+      "consulta": null,
+      "esperado": null,
+      "nota": "Métrica no disponible: el copiloto debe decir que no tiene el dato (solo con modelo)"
+    },
+    {
+      "id": "F04",
+      "pregunta": "¿Cuánto vendió la marca Vita en 2025?",
+      "tipo": "fuera_de_alcance",
+      "consulta": null,
+      "esperado": null,
+      "nota": "Otra marca: el copiloto debe decir que no tiene el dato (solo con modelo)"
+    },
+    {
+      "id": "F05",
+      "pregunta": "¿Cuánto venderá Brío en el cuarto trimestre de 2026?",
+      "tipo": "fuera_de_alcance",
+      "consulta": null,
+      "esperado": null,
+      "nota": "Pronóstico: fuera de alcance (solo con modelo)"
+    },
+    {
+      "id": "E01",
+      "pregunta": "¿Qué dicen los estudios internos sobre el precio en el canal tradicional?",
+      "tipo": "estudio",
+      "consulta": {
+        "herramienta": "brio_buscar_estudios",
+        "args": {
+          "consulta": "precio canal tradicional",
+          "max_resultados": 3
+        }
+      },
+      "esperado": {
+        "estudio_contiene": "Test de precio y promoción"
+      },
+      "nota": ""
+    },
+    {
+      "id": "E02",
+      "pregunta": "¿Qué pasa con los hogares del Caribe según los estudios?",
+      "tipo": "estudio",
+      "consulta": {
+        "herramienta": "brio_buscar_estudios",
+        "args": {
+          "consulta": "hogares Caribe penetración",
+          "max_resultados": 3
+        }
+      },
+      "esperado": {
+        "estudio_contiene": "Panel de hogares región Caribe"
+      },
+      "nota": ""
+    },
+    {
+      "id": "E03",
+      "pregunta": "¿Qué dicen los estudios sobre influenciadores en redes sociales?",
+      "tipo": "fuera_de_alcance",
+      "consulta": {
+        "herramienta": "brio_buscar_estudios",
+        "args": {
+          "consulta": "influenciadores redes sociales",
+          "max_resultados": 3
+        }
+      },
+      "esperado": {
+        "error_contiene": "No encontré fragmentos"
+      },
+      "nota": "Sin evidencia en estudios"
+    }
+  ]
+}
