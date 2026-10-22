@@ -4,6 +4,8 @@ Copiloto de análisis para los analistas de Mercadeo de la marca Brío. Responde
 
 **Principio de diseño: la IA interpreta y redacta; la tabla validada calcula.** Ninguna cifra la calcula el modelo: sale de una herramienta, viaja con su ficha (fuente, corte, definición, responsable) y el servidor verifica que cada número del texto tenga respaldo.
 
+**Pruébalo en línea:** https://copiloto-brio.calmwater-0e4a7472.eastus2.azurecontainerapps.io
+
 > ⚠️ **Datos sintéticos.** La tabla de ventas y los estudios fueron creados para la prueba técnica de Ingeniero de Producto IA (caso ficticio Almena Foods). Las ventas netas de 2025 suman COP 36.000 M para cuadrar con el dato confirmado del caso.
 
 ## Qué demuestra
@@ -55,7 +57,7 @@ El mismo copiloto atiende por Telegram (`src/canales/telegram.ts` solo traduce m
 
 ## Despliegue (GitHub Actions + Azure Container Apps)
 
-Cada `push` a `main` verifica tipos, corre la batería sin modelo y publica la imagen en `ghcr.io/sergioguarin11/copiloto-brio`.
+Cada `push` a `main` verifica tipos, corre la batería sin modelo y publica la imagen en `ghcr.io/sergioguarin11/copiloto-brio`. La suscripción de prueba admite un solo entorno de Container Apps, por eso la app vive en su propio grupo (`rg-copiloto-brio`) sobre el entorno existente.
 
 ```bash
 read -s K
