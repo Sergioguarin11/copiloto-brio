@@ -6,202 +6,148 @@
 <title>Copiloto Brío</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&display=swap" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@500;700;800;900&display=swap" rel="stylesheet" />
 <style>
   :root {
-    --papel: #F5F7F4;
-    --hoja: #FFFFFF;
-    --tinta: #14303A;
-    --suave: #56707A;
-    --linea: #DCE4E0;
-    --yema: #F2A007;
-    --yema-suave: #FDF0D2;
-    --verde: #2F7D5B;
-    --verde-suave: #E2F1E9;
-    --rojo: #C2412D;
-    --rojo-suave: #FBE6E2;
-    --panel: #E8EEEA;
+    --verde: #0B6B55;
+    --verde-osc: #084C3D;
+    --yema: #FFC93C;
+    --fondo: #EFE7DC;
+    --doodle: #E3D8C9;
+    --bot: #FFFFFF;
+    --yo: #D8F6C8;
+    --tinta: #1D2B2A;
+    --suave: #5F6F6C;
+    --azul: #1A9BD7;
+    --rojo: #D9452B;
+    --rojo-suave: #FDE3DE;
+    --sube: #1E9A5B;
+    --sube-suave: #DDF5E7;
+    --chip: #FFFFFF;
+    --linea: #E4DED4;
+    --tarjeta: #F6F1EA;
     --foco: #1F6FB2;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --papel: #0F1E24; --hoja: #16282F; --tinta: #E6EEEB; --suave: #9DB3B9; --linea: #27414A;
-      --yema: #F5B43A; --yema-suave: #3A3018; --verde: #5DBE8E; --verde-suave: #183A2C;
-      --rojo: #F07A66; --rojo-suave: #3D1E19; --panel: #1B3038; --foco: #7DB8EA;
+      --verde: #1F7A63; --verde-osc: #145646; --fondo: #0D1714; --doodle: #16231F; --bot: #1D2A27; --yo: #1F4A38;
+      --tinta: #E9EFEC; --suave: #A3B4AF; --azul: #53BDEB; --rojo: #FF7B63; --rojo-suave: #3A1D18; --sube: #4FD08E; --sube-suave: #173527;
+      --chip: #1D2A27; --linea: #2C3B37; --tarjeta: #15201D; --foco: #7DB8EA;
     }
   }
   :root[data-theme="dark"] {
-    --papel: #0F1E24; --hoja: #16282F; --tinta: #E6EEEB; --suave: #9DB3B9; --linea: #27414A;
-    --yema: #F5B43A; --yema-suave: #3A3018; --verde: #5DBE8E; --verde-suave: #183A2C;
-    --rojo: #F07A66; --rojo-suave: #3D1E19; --panel: #1B3038; --foco: #7DB8EA;
+    --verde: #1F7A63; --verde-osc: #145646; --fondo: #0D1714; --doodle: #16231F; --bot: #1D2A27; --yo: #1F4A38;
+    --tinta: #E9EFEC; --suave: #A3B4AF; --azul: #53BDEB; --rojo: #FF7B63; --rojo-suave: #3A1D18; --sube: #4FD08E; --sube-suave: #173527;
+    --chip: #1D2A27; --linea: #2C3B37; --tarjeta: #15201D; --foco: #7DB8EA;
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
-  body { margin: 0; background: var(--papel); color: var(--tinta); font: 17px/1.55 "Atkinson Hyperlegible", system-ui, sans-serif; }
+  body { margin: 0; color: var(--tinta); font: 17px/1.45 "Nunito", system-ui, -apple-system, "Segoe UI", sans-serif; background: var(--verde-osc); }
   button { font: inherit; color: inherit; cursor: pointer; background: none; border: 0; padding: 0; }
-  :focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; border-radius: 6px; }
-  .display { font-family: "Bricolage Grotesque", system-ui, sans-serif; }
+  :focus-visible { outline: 3px solid var(--foco); outline-offset: 2px; border-radius: 8px; }
 
-  .app { display: grid; grid-template-columns: minmax(0, 1fr) 380px; grid-template-rows: auto minmax(0, 1fr); height: 100vh; }
-  header { grid-column: 1 / -1; display: flex; align-items: center; gap: 14px; padding: 14px 28px; border-bottom: 1px solid var(--linea); background: var(--hoja); }
-  .marca { display: flex; align-items: center; gap: 10px; }
-  .gota { width: 26px; height: 26px; border-radius: 50% 50% 50% 8px; background: var(--yema); transform: rotate(-45deg); }
-  .marca h1 { margin: 0; font: 800 21px/1 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -0.01em; }
-  .sintetico { font-size: 14px; color: var(--suave); border: 1px dashed var(--suave); border-radius: 999px; padding: 2px 10px; }
-  header .espacio { flex: 1; }
-  .modelo { font-size: 14px; color: var(--suave); }
-  .nueva { font-size: 15px; font-weight: 700; padding: 8px 14px; border-radius: 10px; border: 1px solid var(--linea); background: var(--papel); }
-  .nueva:hover { border-color: var(--suave); }
+  .telefono { height: 100vh; max-width: 860px; margin: 0 auto; display: flex; flex-direction: column; background-color: var(--fondo);
+    background-image: radial-gradient(var(--doodle) 2px, transparent 2.5px), radial-gradient(var(--doodle) 1.5px, transparent 2px);
+    background-size: 34px 34px, 22px 22px; background-position: 0 0, 11px 17px; }
 
-  main { display: flex; flex-direction: column; min-height: 0; }
-  #log { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 28px 28px 12px; }
-  .columna { max-width: 760px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
+  header { display: flex; align-items: center; gap: 12px; padding: 10px 16px; background: var(--verde); color: #fff; }
+  .avatar { width: 46px; height: 46px; border-radius: 50%; background: var(--yema); display: grid; place-items: center; font-size: 26px; flex: none; }
+  .quien { flex: 1; min-width: 0; }
+  .quien b { display: block; font-size: 19px; font-weight: 900; line-height: 1.15; }
+  .quien span { font-size: 14px; opacity: .9; }
+  .demo { font-size: 13px; font-weight: 800; background: rgba(255,255,255,.16); border-radius: 999px; padding: 4px 10px; white-space: nowrap; }
+  .nueva { display: inline-flex; align-items: center; gap: 6px; font-size: 14px; font-weight: 800; background: rgba(255,255,255,.16); border-radius: 999px; padding: 6px 12px; white-space: nowrap; }
+  .nueva:hover { background: rgba(255,255,255,.26); }
 
-  .pregunta { align-self: flex-end; max-width: 80%; background: var(--tinta); color: var(--papel); padding: 11px 17px; border-radius: 18px 18px 4px 18px; white-space: pre-wrap; }
+  #log { flex: 1; overflow-y: auto; overflow-x: hidden; padding: 18px 14px 8px; }
+  .chat { display: flex; flex-direction: column; gap: 10px; max-width: 720px; margin: 0 auto; }
+  .dia { align-self: center; font-size: 13px; font-weight: 800; color: var(--suave); background: var(--bot); padding: 4px 12px; border-radius: 8px; box-shadow: 0 1px 1px rgba(0,0,0,.08); }
 
-  .respuesta { display: flex; flex-direction: column; gap: 14px; min-width: 0; }
-  .cifra, .cita, .texto { min-width: 0; overflow-wrap: anywhere; }
-  .respuesta.activa { position: relative; }
-  .texto p { margin: 0 0 8px; } .texto p:last-child { margin: 0; }
-  .texto ul { margin: 4px 0 8px; padding-left: 20px; } .texto li { margin: 3px 0; }
-  .texto .fuente { font-size: 14px; color: var(--suave); }
-  .respuesta.error .texto { color: var(--rojo); }
+  .msg { max-width: min(560px, 88%); padding: 9px 12px 6px; border-radius: 14px; box-shadow: 0 1px 1.5px rgba(0,0,0,.12); overflow-wrap: anywhere; }
+  .msg.bot { align-self: flex-start; background: var(--bot); border-top-left-radius: 4px; }
+  .msg.yo { align-self: flex-end; background: var(--yo); border-top-right-radius: 4px; }
+  .msg.error { border-left: 4px solid var(--rojo); }
+  .msg p { margin: 0 0 6px; }
+  .msg ul { margin: 2px 0 6px; padding-left: 20px; }
+  .msg .fuente-txt { display: none; }
+  .hora { display: flex; justify-content: flex-end; align-items: center; gap: 8px; font-size: 12px; color: var(--suave); margin-top: 2px; }
+  .checks { color: var(--azul); font-weight: 900; letter-spacing: -3px; margin-right: 3px; }
 
-  /* La pieza memorable: la cifra verificada */
-  .cifra { background: var(--hoja); border: 1px solid var(--linea); border-radius: 18px; padding: 20px 22px 18px; display: grid; gap: 10px; }
-  .cifra .que { font-size: 15px; color: var(--suave); }
-  .cifra .fila { display: flex; align-items: baseline; flex-wrap: wrap; gap: 6px 16px; }
-  .cifra .numero { font: 800 clamp(34px, 6vw, 52px)/1 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; background: linear-gradient(transparent 68%, var(--yema-suave) 68%); padding: 0 4px; }
-  .variacion { font: 700 20px/1 "Bricolage Grotesque", system-ui, sans-serif; padding: 6px 12px; border-radius: 999px; }
-  .variacion.baja { color: var(--rojo); background: var(--rojo-suave); }
-  .variacion.sube { color: var(--verde); background: var(--verde-suave); }
-  .cifra .contra { font-size: 15px; color: var(--suave); }
+  .tarjeta { margin: 4px -4px 8px; background: var(--tarjeta); border-radius: 12px; padding: 12px 14px; }
+  .tarjeta .tema { font-size: 14px; font-weight: 800; color: var(--suave); }
+  .tarjeta .grande { display: flex; align-items: center; flex-wrap: wrap; gap: 6px 12px; margin: 2px 0; }
+  .tarjeta .emoji { font-size: 34px; line-height: 1; }
+  .tarjeta .numero { font-size: clamp(30px, 7vw, 42px); font-weight: 900; letter-spacing: -0.02em; line-height: 1.1; font-variant-numeric: tabular-nums; }
+  .pill { font-size: 18px; font-weight: 900; padding: 4px 11px; border-radius: 999px; }
+  .pill.baja { color: var(--rojo); background: var(--rojo-suave); }
+  .pill.sube { color: var(--sube); background: var(--sube-suave); }
+  .tarjeta .contra { font-size: 14px; color: var(--suave); }
+  .filas { display: grid; gap: 7px; margin-top: 10px; }
+  .fila { display: grid; grid-template-columns: 1fr auto; gap: 2px 10px; font-size: 15px; }
+  .fila .barra { grid-column: 1 / -1; height: 9px; border-radius: 6px; background: var(--linea); overflow: hidden; }
+  .fila .barra i { display: block; height: 100%; border-radius: 6px; background: var(--verde); }
+  .fila.peor .barra i { background: var(--rojo); }
+  .fila .v { font-weight: 800; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .fila.peor .v, .fila.peor .n { color: var(--rojo); font-weight: 900; }
+  .cita { margin: 4px -4px 8px; background: var(--tarjeta); border-left: 4px solid var(--yema); border-radius: 10px; padding: 9px 12px; font-size: 15px; }
+  .cita small { display: block; color: var(--suave); margin-top: 4px; font-size: 13px; }
 
-  .barras { display: grid; gap: 8px; margin-top: 4px; }
-  .barra { display: grid; grid-template-columns: minmax(110px, 190px) 1fr auto; align-items: center; gap: 12px; font-size: 15px; }
-  .barra .pista { height: 12px; background: var(--panel); border-radius: 6px; overflow: hidden; }
-  .barra .relleno { height: 100%; border-radius: 6px; background: var(--tinta); opacity: .85; }
-  .barra.peor .relleno { background: var(--rojo); opacity: 1; }
-  .barra .val { font-variant-numeric: tabular-nums; text-align: right; white-space: nowrap; }
-  .barra .val b { font-weight: 700; }
-  .barra.peor .val b { color: var(--rojo); }
+  .estado { display: inline-flex; align-items: center; font-size: 13px; font-weight: 800; color: var(--azul); }
+  .estado.mal { color: var(--rojo); }
+  .origen { font-size: 14px; font-weight: 800; color: var(--verde); margin-top: 2px; }
+  .origen[aria-expanded="true"] { text-decoration: underline; text-underline-offset: 3px; }
+  .rastro { margin: 8px -4px 4px; border-top: 1px dashed var(--linea); padding-top: 8px; font-size: 14px; display: grid; gap: 6px; }
+  .rastro .p { display: grid; grid-template-columns: 26px 1fr; gap: 8px; align-items: start; }
+  .rastro .p i { font-style: normal; width: 26px; height: 26px; border-radius: 50%; display: grid; place-items: center; background: var(--verde); color: #fff; font-weight: 900; font-size: 13px; }
+  .rastro .p.mal i { background: var(--rojo); }
+  .rastro .p span { color: var(--suave); }
 
-  .cita { border-left: 4px solid var(--yema); background: var(--hoja); border-radius: 0 12px 12px 0; padding: 12px 16px; }
-  .cita q { quotes: "“" "”"; }
-  .cita small { display: block; margin-top: 6px; font-size: 14px; color: var(--suave); }
+  .reacciones { display: flex; gap: 6px; margin: -2px 0 0 6px; }
+  .reacciones button { font-size: 13px; font-weight: 800; background: var(--bot); border-radius: 999px; padding: 3px 10px; box-shadow: 0 1px 1.5px rgba(0,0,0,.1); color: var(--suave); }
+  .reacciones button[aria-pressed="true"] { color: var(--tinta); outline: 2px solid var(--verde); }
 
-  .pie { display: flex; flex-wrap: wrap; align-items: center; gap: 10px 14px; }
-  .sello { display: inline-flex; align-items: center; gap: 8px; font-size: 15px; font-weight: 700; padding: 6px 12px; border-radius: 999px; }
-  .sello.ok { color: var(--verde); background: var(--verde-suave); }
-  .sello.mal { color: var(--rojo); background: var(--rojo-suave); }
-  .sello svg { width: 16px; height: 16px; flex: none; }
-  .ver-rastro { font-size: 15px; color: var(--foco); text-decoration: underline; text-underline-offset: 3px; }
-  .fb { display: inline-flex; gap: 6px; margin-left: auto; }
-  .fb button { font-size: 14px; padding: 5px 11px; border-radius: 999px; border: 1px solid var(--linea); color: var(--suave); }
-  .fb button:hover { color: var(--tinta); border-color: var(--suave); }
-  .fb button[aria-pressed="true"] { color: var(--tinta); background: var(--panel); border-color: var(--tinta); }
+  .rapidas { display: flex; flex-wrap: wrap; gap: 8px; margin: 2px 0 6px; max-width: 640px; }
+  .rapida { background: var(--chip); color: var(--verde); font-weight: 800; font-size: 15px; padding: 9px 14px; border-radius: 999px; border: 2px solid var(--verde); box-shadow: 0 1px 1.5px rgba(0,0,0,.1); text-align: left; }
+  .rapida:hover { background: var(--verde); color: #fff; }
 
-  .esperando { display: flex; align-items: center; gap: 10px; color: var(--suave); font-size: 15px; }
-  .esperando .punto { width: 9px; height: 9px; border-radius: 50%; background: var(--yema); animation: latido 1s ease-in-out infinite; }
-  @keyframes latido { 50% { transform: scale(.5); opacity: .4 } }
+  .escribiendo { align-self: flex-start; background: var(--bot); border-radius: 14px; border-top-left-radius: 4px; padding: 10px 14px; box-shadow: 0 1px 1.5px rgba(0,0,0,.12); display: flex; align-items: center; gap: 10px; font-size: 14px; color: var(--suave); }
+  .puntos { display: inline-flex; gap: 4px; }
+  .puntos i { width: 8px; height: 8px; border-radius: 50%; background: var(--suave); animation: salta 1.2s infinite; }
+  .puntos i:nth-child(2) { animation-delay: .15s; } .puntos i:nth-child(3) { animation-delay: .3s; }
+  @keyframes salta { 0%, 60%, 100% { transform: none; opacity: .5 } 30% { transform: translateY(-5px); opacity: 1 } }
+  .entra { animation: aparece .25s ease-out; }
+  @keyframes aparece { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
 
-  /* Inicio */
-  .inicio { padding-top: 4vh; display: grid; gap: 22px; }
-  .inicio h2 { margin: 0; font: 800 clamp(32px, 5vw, 46px)/1.05 "Bricolage Grotesque", system-ui, sans-serif; letter-spacing: -0.02em; max-width: 16ch; }
-  .inicio .lema { margin: 0; color: var(--suave); max-width: 56ch; font-size: 18px; }
-  .principio { display: grid; grid-template-columns: repeat(3, 1fr); background: var(--hoja); border: 1px solid var(--linea); border-radius: 16px; overflow: hidden; }
-  .principio div { padding: 14px 16px; font-size: 15px; color: var(--suave); }
-  .principio div + div { border-left: 1px solid var(--linea); }
-  .principio b { display: block; color: var(--tinta); font: 700 17px/1.3 "Bricolage Grotesque", system-ui, sans-serif; margin-bottom: 2px; }
-  .ejemplos { display: grid; grid-template-columns: repeat(2, 1fr); gap: 12px; }
-  .ejemplo { text-align: left; background: var(--hoja); border: 1px solid var(--linea); border-radius: 14px; padding: 14px 16px; display: grid; gap: 4px; }
-  .ejemplo:hover { border-color: var(--tinta); }
-  .ejemplo .tema { font: 700 15px/1.2 "Bricolage Grotesque", system-ui, sans-serif; color: var(--suave); }
-  .ejemplo .q { font-size: 16px; }
+  form { display: flex; gap: 8px; align-items: flex-end; padding: 8px 12px 12px; max-width: 744px; width: 100%; margin: 0 auto; }
+  .caja { flex: 1; background: var(--bot); border-radius: 26px; padding: 4px 18px; box-shadow: 0 1px 1.5px rgba(0,0,0,.12); display: flex; }
+  textarea { flex: 1; resize: none; border: 0; outline: 0; font: inherit; background: transparent; color: var(--tinta); padding: 10px 0; min-height: 44px; max-height: 140px; }
+  .enviar { width: 52px; height: 52px; border-radius: 50%; background: var(--verde); color: #fff; display: grid; place-items: center; flex: none; box-shadow: 0 1px 2px rgba(0,0,0,.2); }
+  .enviar:disabled { opacity: .55; cursor: default; }
+  .enviar svg { width: 24px; height: 24px; }
 
-  form { padding: 14px 28px 22px; }
-  .caja { max-width: 760px; margin: 0 auto; display: flex; gap: 8px; background: var(--hoja); border: 2px solid var(--linea); border-radius: 16px; padding: 7px 7px 7px 16px; }
-  .caja:focus-within { border-color: var(--tinta); }
-  textarea { flex: 1; resize: none; border: 0; outline: 0; font: inherit; background: transparent; color: var(--tinta); padding: 8px 0; min-height: 40px; max-height: 150px; }
-  .enviar { align-self: flex-end; background: var(--tinta); color: var(--papel); font-weight: 700; padding: 9px 18px; border-radius: 11px; }
-  .enviar:disabled { opacity: .5; cursor: default; }
-  .aviso-form { max-width: 760px; margin: 8px auto 0; font-size: 13px; color: var(--suave); text-align: center; }
-
-  /* Rastro */
-  aside { border-left: 1px solid var(--linea); background: var(--hoja); overflow-y: auto; padding: 26px 24px; }
-  aside h3 { margin: 0 0 4px; font: 800 20px/1.2 "Bricolage Grotesque", system-ui, sans-serif; }
-  aside .sub { margin: 0 0 20px; font-size: 14px; color: var(--suave); }
-  .pasos { list-style: none; margin: 0; padding: 0; display: grid; }
-  .paso { display: grid; grid-template-columns: 30px 1fr; gap: 12px; padding-bottom: 18px; position: relative; }
-  .paso::before { content: ""; position: absolute; left: 14px; top: 30px; bottom: 0; width: 2px; background: var(--linea); }
-  .paso:last-child::before { display: none; }
-  .paso .marca-paso { width: 30px; height: 30px; border-radius: 50%; display: grid; place-items: center; font: 700 14px/1 "Bricolage Grotesque", system-ui, sans-serif; background: var(--panel); color: var(--suave); }
-  .paso.hecho .marca-paso { background: var(--tinta); color: var(--papel); }
-  .paso.alerta .marca-paso { background: var(--rojo); color: #fff; }
-  .paso.ok .marca-paso { background: var(--verde); color: #fff; }
-  .paso b { display: block; font-size: 16px; }
-  .paso span { font-size: 14px; color: var(--suave); }
-  .ficha { margin: 6px 0 0; display: grid; grid-template-columns: auto 1fr; gap: 6px 12px; font-size: 14px; border-top: 1px solid var(--linea); padding-top: 16px; }
-  .ficha dt { color: var(--suave); }
-  .ficha dd { margin: 0; }
-  .detalle-tecnico { margin-top: 16px; font-size: 13px; }
-  .detalle-tecnico summary { cursor: pointer; color: var(--suave); }
-  .detalle-tecnico pre { white-space: pre-wrap; word-break: break-word; background: var(--papel); padding: 10px; border-radius: 8px; max-height: 260px; overflow: auto; }
-  .rastro-vacio { color: var(--suave); font-size: 15px; }
-
-  .anim .paso { animation: entra .35s ease-out both; }
-  .anim .paso:nth-child(2) { animation-delay: .12s; } .anim .paso:nth-child(3) { animation-delay: .24s; } .anim .paso:nth-child(4) { animation-delay: .36s; }
-  @keyframes entra { from { opacity: 0; transform: translateY(6px); } to { opacity: 1; transform: none; } }
-
-  .rastro-movil { display: none; }
-
-  @media (max-width: 960px) {
-    .app { grid-template-columns: minmax(0, 1fr); height: auto; min-height: 100vh; }
-    main, .columna { min-width: 0; max-width: 100%; }
-    aside { display: none; }
-    .rastro-movil { display: block; background: var(--hoja); border: 1px solid var(--linea); border-radius: 14px; padding: 14px 16px; }
-    .rastro-movil[hidden] { display: none; }
-    #log { padding: 20px 16px 8px; }
-    form { padding: 10px 16px 16px; }
-    header { padding: 12px 16px; flex-wrap: wrap; }
-    .modelo { display: none; }
-    .principio { grid-template-columns: 1fr; }
-    .principio div + div { border-left: 0; border-top: 1px solid var(--linea); }
-    .ejemplos { grid-template-columns: 1fr; }
-    .fb { margin-left: 0; }
-    .barra { grid-template-columns: 1fr auto; row-gap: 4px; }
-    .barra .pista { grid-column: 1 / -1; grid-row: 2; }
-    .cifra { padding: 16px; }
+  @media (max-width: 560px) {
+    .demo { display: none; }
+    .nueva span { display: none; }
+    .msg { max-width: 92%; }
   }
-  @media (prefers-reduced-motion: reduce) { .anim .paso, .esperando .punto { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .puntos i, .entra { animation: none; } }
 </style>
 </head>
 <body>
-<div class="app">
+<div class="telefono">
   <header>
-    <div class="marca"><div class="gota" aria-hidden="true"></div><h1>Copiloto Brío</h1></div>
-    <span class="sintetico" title="La tabla de ventas y los estudios son sintéticos, creados para la prueba">Datos de demostración</span>
-    <span class="espacio"></span>
-    <span class="modelo" id="modelo"></span>
-    <button class="nueva" id="nueva" type="button">Nueva conversación</button>
+    <div class="avatar" aria-hidden="true">🥫</div>
+    <div class="quien"><b>Copiloto Brío</b><span id="estado-linea">en línea · responde con cifras verificadas</span></div>
+    <span class="demo" title="La tabla de ventas y los estudios son sintéticos, creados para la prueba">Datos de demostración</span>
+    <button class="nueva" id="nueva" type="button" aria-label="Nueva conversación">⟳ <span>Nueva</span></button>
   </header>
 
-  <main>
-    <div id="log" aria-live="polite"><div class="columna" id="columna"></div></div>
-    <form id="form">
-      <div class="caja">
-        <textarea id="input" rows="1" aria-label="Tu pregunta" placeholder="Pregunta por ventas, canales, regiones o estudios de Brío"></textarea>
-        <button class="enviar" id="enviar" type="submit">Preguntar</button>
-      </div>
-      <p class="aviso-form">Las cifras salen de la base única de ventas. Tú decides qué usar.</p>
-    </form>
-  </main>
+  <div id="log" aria-live="polite"><div class="chat" id="chat"></div></div>
 
-  <aside id="rastro" aria-label="Cómo se obtuvo la respuesta">
-    <h3>Cómo se obtuvo</h3>
-    <p class="sub">Elige una respuesta para ver su rastro.</p>
-    <div id="rastro-cuerpo"><p class="rastro-vacio">Aquí verás qué se consultó, de dónde salió cada cifra y si todas pasaron la revisión.</p></div>
-  </aside>
+  <form id="form">
+    <div class="caja"><textarea id="input" rows="1" aria-label="Escribe tu pregunta" placeholder="Escribe tu pregunta…"></textarea></div>
+    <button class="enviar" id="enviar" type="submit" aria-label="Enviar pregunta"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M3 20.5l18-8.5L3 3.5l2.5 7L15 12l-9.5 1.5z" fill="currentColor"/></svg></button>
+  </form>
 </div>
 
 <script>
@@ -214,19 +160,26 @@ let sessionId = store.get("sessionId") || crypto.randomUUID()
 store.set("sessionId", sessionId)
 let accessKey = store.get("accessKey") || ""
 let turno = 0
-const respuestas = []
 
-const EJEMPLOS = [
-  { tema: "Cuánto vendimos", q: "¿Cuánto vendió Brío en ventas netas en el tercer trimestre de 2026 frente al mismo trimestre de 2025?" },
-  { tema: "Dónde caímos", q: "¿Qué región cayó más en el tercer trimestre de 2026?" },
-  { tema: "Por qué no cuadran los reportes", q: "¿Por qué el reporte de Comercial y el de Finanzas dan cifras distintas de ventas netas en 2025?" },
-  { tema: "Qué dicen los estudios", q: "¿Qué dicen los estudios internos sobre el precio en el canal tradicional?" },
+const INICIALES = [
+  "💰 ¿Cuánto vendimos este trimestre?",
+  "📍 ¿Qué región cayó más?",
+  "🛒 ¿Cómo van los canales este año?",
+  "🧾 ¿Por qué los reportes no cuadran?",
+  "📚 ¿Qué dicen los estudios del precio?",
 ]
-const METRICA = { ventas_netas: "Ventas netas", ventas_brutas: "Ventas brutas", descuentos: "Descuentos", devoluciones: "Devoluciones", unidades: "Unidades", descuento_pct: "Descuento sobre ventas brutas" }
-const AGRUP = { total: "total", mes: "por mes", trimestre: "por trimestre", anio: "por año", canal: "por canal", region: "por región" }
+const PREGUNTA_REAL = {
+  "💰 ¿Cuánto vendimos este trimestre?": "¿Cuánto vendió Brío en ventas netas en el tercer trimestre de 2026 frente al mismo trimestre de 2025?",
+  "📍 ¿Qué región cayó más?": "¿Qué región cayó más en ventas netas en el tercer trimestre de 2026 frente al de 2025?",
+  "🛒 ¿Cómo van los canales este año?": "¿Cómo cambiaron las ventas netas por canal de enero a septiembre de 2026 frente al mismo periodo de 2025?",
+  "🧾 ¿Por qué los reportes no cuadran?": "¿Por qué el reporte de Comercial y el de Finanzas dan cifras distintas de ventas netas en 2025?",
+  "📚 ¿Qué dicen los estudios del precio?": "¿Qué dicen los estudios internos sobre el precio en el canal tradicional?",
+}
+const METRICA = { ventas_netas: "Ventas netas", ventas_brutas: "Ventas brutas", descuentos: "Descuentos", devoluciones: "Devoluciones", unidades: "Unidades vendidas", descuento_pct: "Descuento sobre ventas brutas" }
 const MESES = ["ene", "feb", "mar", "abr", "may", "jun", "jul", "ago", "sep", "oct", "nov", "dic"]
 const mes = (m) => (m ? `${MESES[Number(m.slice(5, 7)) - 1]} ${m.slice(0, 4)}` : "")
 const periodo = (d, h) => (d === h ? mes(d) : `${mes(d)} a ${mes(h)}`)
+const horaDe = (ts) => { try { return new Date(ts || Date.now()).toLocaleTimeString("es-CO", { hour: "numeric", minute: "2-digit" }) } catch { return "" } }
 
 async function api(path, opts = {}) {
   const headers = { "Content-Type": "application/json", ...(accessKey ? { "x-access-key": accessKey } : {}) }
@@ -238,7 +191,6 @@ async function api(path, opts = {}) {
   }
   return res
 }
-
 const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" })[c])
 
 function md(texto) {
@@ -251,188 +203,200 @@ function md(texto) {
     if (m) { (lista ||= []).push(`<li>${inline(m[1])}</li>`); continue }
     cerrar()
     if (/^\s*-{3,}\s*$/.test(linea) || !linea.trim()) continue
-    const esFuente = /^\s*fuente:/i.test(linea)
-    out.push(`<p${esFuente ? ' class="fuente"' : ""}>${inline(linea.replace(/^#+\s*/, ""))}</p>`)
+    // La fuente se muestra en "De dónde salió", no repetida en el texto
+    out.push(`<p${/^\s*fuente:/i.test(linea) ? ' class="fuente-txt"' : ""}>${inline(linea.replace(/^#+\s*/, ""))}</p>`)
   }
   cerrar()
   return out.join("")
 }
 
 const datos = (t) => (t && t.ok && t.resultado && t.resultado.data) || null
-const ICONO_OK = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M3 8.5l3 3 7-7" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg>'
-const ICONO_MAL = '<svg viewBox="0 0 16 16" aria-hidden="true"><path d="M8 3v6M8 12.5v.5" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>'
+const signo = (s) => (String(s || "").trim().startsWith("-") ? "baja" : "sube")
+const menos = (s) => String(s || "").replace("-", "−")
 
-// La cifra destacada se arma con el resultado de la herramienta, no con el texto del modelo.
-function cifraHtml(toolCalls) {
+// La tarjeta se arma con lo que devolvió la base, no con el texto de la IA.
+function tarjetas(toolCalls) {
   let html = ""
   for (const t of toolCalls || []) {
     const d = datos(t)
     if (!d) continue
     if (t.nombre === "brio_consultar_ventas") {
       const tot = d.total
-      const var_ = tot.variacion_fmt ? `<span class="variacion ${tot.variacion_fmt.startsWith("-") ? "baja" : "sube"}">${esc(tot.variacion_fmt.replace("-", "−"))}</span>` : ""
       const filtros = [d.filtros.canal && `canal ${d.filtros.canal}`, d.filtros.region && `región ${d.filtros.region}`].filter(Boolean).join(", ")
-      let barras = ""
+      let filas = ""
       if (d.filas.length > 1) {
-        const usaVar = d.filas.every((f) => typeof f.variacion === "number")
-        const max = Math.max(...d.filas.map((f) => Math.abs(usaVar ? f.variacion : f.valor))) || 1
-        const peor = usaVar ? d.filas.reduce((a, b) => (b.variacion < a.variacion ? b : a)) : null
-        barras = `<div class="barras">${d.filas.map((f) => {
-          const v = usaVar ? f.variacion : f.valor
-          return `<div class="barra${peor && f === peor && f.variacion < 0 ? " peor" : ""}"><span>${esc(f.grupo)}</span>
-            <span class="pista"><span class="relleno" style="width:${Math.max(3, (Math.abs(v) / max) * 100)}%;display:block"></span></span>
-            <span class="val">${usaVar ? `<b>${esc(f.variacion_fmt.replace("-", "−"))}</b> · ${esc(f.valor_fmt)}` : `<b>${esc(f.valor_fmt)}</b>`}</span></div>`
+        const conVar = d.filas.every((f) => typeof f.variacion === "number")
+        const max = Math.max(...d.filas.map((f) => Math.abs(conVar ? f.variacion : f.valor))) || 1
+        const peor = conVar ? d.filas.reduce((a, b) => (b.variacion < a.variacion ? b : a)) : null
+        filas = `<div class="filas">${d.filas.map((f) => {
+          const v = conVar ? f.variacion : f.valor
+          const esPeor = peor && f === peor && f.variacion < 0
+          return `<div class="fila${esPeor ? " peor" : ""}"><span class="n">${esPeor ? "🔻 " : ""}${esc(f.grupo)}</span><span class="v">${conVar ? esc(menos(f.variacion_fmt)) : esc(f.valor_fmt)}</span>
+            <span class="barra"><i style="width:${Math.max(4, (Math.abs(v) / max) * 100)}%"></i></span></div>`
         }).join("")}</div>`
       }
-      html += `<div class="cifra">
-        <div class="que">${esc(METRICA[d.metrica] || d.metrica)} de Brío · ${esc(periodo(d.periodo.desde, d.periodo.hasta))}${filtros ? ` · ${esc(filtros)}` : ""}</div>
-        <div class="fila"><span class="numero">${esc(tot.valor_fmt)}</span>${var_}</div>
-        ${tot.comparado_fmt ? `<div class="contra">Frente a ${esc(tot.comparado_fmt)} en ${esc(periodo(d.periodo_comparado.desde, d.periodo_comparado.hasta))}</div>` : ""}
-        ${barras}
-      </div>`
+      html += `<div class="tarjeta">
+        <div class="tema">${esc(METRICA[d.metrica] || d.metrica)} · ${esc(periodo(d.periodo.desde, d.periodo.hasta))}${filtros ? ` · ${esc(filtros)}` : ""}</div>
+        <div class="grande"><span class="emoji" aria-hidden="true">${tot.variacion_fmt ? (signo(tot.variacion_fmt) === "baja" ? "📉" : "📈") : "📊"}</span><span class="numero">${esc(tot.valor_fmt)}</span>
+          ${tot.variacion_fmt ? `<span class="pill ${signo(tot.variacion_fmt)}">${esc(menos(tot.variacion_fmt))}</span>` : ""}</div>
+        ${tot.comparado_fmt ? `<div class="contra">Antes: ${esc(tot.comparado_fmt)} (${esc(periodo(d.periodo_comparado.desde, d.periodo_comparado.hasta))})</div>` : ""}
+        ${filas}</div>`
     }
     if (t.nombre === "brio_definicion" && d.comparacion) {
       const max = Math.max(...d.comparacion.map((c) => c.valor))
-      html += `<div class="cifra"><div class="que">Ventas netas según cada reporte · ${esc(periodo(d.periodo.desde, d.periodo.hasta))}</div>
-        <div class="barras">${d.comparacion.map((c) => `<div class="barra${c.id === "finanzas" ? "" : " peor"}"><span>${esc(c.reporte.replace(" (definición única)", ""))}</span>
-          <span class="pista"><span class="relleno" style="width:${(c.valor / max) * 100}%;display:block;${c.id === "finanzas" ? "background:var(--verde)" : ""}"></span></span>
-          <span class="val"><b>${esc(c.valor_fmt)}</b>${c.id === "finanzas" ? " · la única" : ` · ${esc(c.diferencia_pct_fmt)}`}</span></div>`).join("")}</div>
-        <div class="contra">Definición única: ${esc(d.definicion_unica.formula)}</div></div>`
+      html += `<div class="tarjeta"><div class="tema">🧾 “Ventas netas” según cada reporte · ${esc(periodo(d.periodo.desde, d.periodo.hasta))}</div>
+        <div class="filas">${d.comparacion.map((c) => `<div class="fila${c.id === "finanzas" ? "" : " peor"}"><span class="n">${c.id === "finanzas" ? "✅ " : ""}${esc(c.reporte.replace(" (definición única)", ""))}</span><span class="v">${esc(c.valor_fmt)}</span>
+          <span class="barra"><i style="width:${(c.valor / max) * 100}%"></i></span></div>`).join("")}</div>
+        <div class="contra" style="margin-top:8px">La cifra única: ${esc(d.definicion_unica.formula)}</div></div>`
     }
     if (t.nombre === "brio_buscar_estudios") {
-      html += d.fragmentos.map((f) => `<div class="cita"><q>${esc(f.texto)}</q><small>${esc(f.estudio)}, sección ${esc(f.seccion)}</small></div>`).join("")
+      html += d.fragmentos.map((f) => `<div class="cita">“${esc(f.texto)}”<small>📚 ${esc(f.estudio)}</small></div>`).join("")
     }
   }
   return html
 }
 
-function selloHtml(v) {
-  if (!v || !v.cifras) return ""
-  if (!v.no_verificadas.length) return `<span class="sello ok">${ICONO_OK}${v.cifras === 1 ? "1 cifra verificada" : `${v.verificadas} de ${v.cifras} cifras verificadas`}</span>`
-  return `<span class="sello mal">${ICONO_MAL}Revisa: ${esc(v.no_verificadas.join(", "))} sin respaldo en los datos</span>`
-}
-
-function rastroHtml(ev) {
+function rastro(ev) {
   const calls = ev.toolCalls || []
-  const consultas = calls.map((t) => {
+  const ficha = calls.map(datos).find((d) => d && d.ficha)?.ficha
+  const v = ev.verificacion || { cifras: 0, no_verificadas: [] }
+  const malas = (v.no_verificadas || []).length
+  const que = calls.map((t) => {
     const a = t.args || {}
     if (t.nombre === "brio_consultar_ventas") {
+      const por = { mes: ", mes a mes", trimestre: ", por trimestre", anio: ", por año", canal: ", por canal", region: ", por región" }[a.agrupar_por] || ""
+      const filtros = [a.canal && `, canal ${a.canal}`, a.region && `, región ${a.region}`].filter(Boolean).join("")
       const comp = a.comparar_con === "mismo_periodo_anio_anterior" ? ", frente al año anterior" : a.comparar_con === "periodo_anterior" ? ", frente al periodo anterior" : ""
-      const filtros = [a.canal && `canal ${a.canal}`, a.region && `región ${a.region}`].filter(Boolean).join(", ")
-      return `${METRICA[a.metrica] || a.metrica}, ${periodo(a.desde, a.hasta)}, ${AGRUP[a.agrupar_por || "total"]}${filtros ? `, ${filtros}` : ""}${comp}`
+      return `${METRICA[a.metrica] || a.metrica} de ${periodo(a.desde, a.hasta)}${por}${filtros}${comp}`
     }
-    if (t.nombre === "brio_definicion") return `Definición de ventas netas${a.comparar_desde ? `, comparando reportes de ${periodo(a.comparar_desde, a.comparar_hasta)}` : ""}`
+    if (t.nombre === "brio_definicion") return "Cómo calcula cada reporte las ventas netas"
     if (t.nombre === "brio_buscar_estudios") return `Estudios internos sobre “${a.consulta}”`
-    return "Alcance de los datos disponibles"
+    return "Qué datos hay disponibles"
   })
-  const fallas = calls.filter((t) => !t.ok)
-  const ficha = calls.map(datos).find((d) => d && d.ficha)?.ficha
-  const v = ev.verificacion || { cifras: 0, verificadas: 0, no_verificadas: [] }
-  const revision = !v.cifras ? { cls: "hecho", txt: "La respuesta no trae cifras para revisar" }
-    : v.no_verificadas.length ? { cls: "alerta", txt: `${v.no_verificadas.length} cifra(s) sin respaldo: no las uses sin revisar` }
-    : { cls: "ok", txt: `${v.verificadas} de ${v.cifras} cifras coinciden con los datos` }
-  return `<ol class="pasos">
-    <li class="paso hecho"><span class="marca-paso">1</span><div><b>Entendió tu pregunta</b><span>${calls.length ? "Decidió qué consultar en la base" : "Respondió sin consultar la base"}</span></div></li>
-    <li class="paso ${calls.length ? (fallas.length === calls.length ? "alerta" : "hecho") : ""}"><span class="marca-paso">2</span><div><b>Consultó</b><span>${consultas.length ? consultas.map(esc).join("<br>") : "Sin consultas"}</span></div></li>
-    <li class="paso ${calls.length ? "hecho" : ""}"><span class="marca-paso">3</span><div><b>La base hizo las cuentas</b><span>${fallas.length ? esc(fallas.map((f) => f.resumen).join(" ")) : "La IA no calcula: copia lo que la base devuelve"}</span></div></li>
-    <li class="paso ${revision.cls}"><span class="marca-paso">4</span><div><b>Revisión de cifras</b><span>${esc(revision.txt)}</span></div></li>
-  </ol>
-  ${ficha ? `<dl class="ficha"><dt>Fuente</dt><dd>Base única de ventas de Brío</dd><dt>Corte</dt><dd>${esc(ficha.corte)}</dd><dt>Definición</dt><dd>${esc(ficha.metrica)} = ${esc(ficha.definicion)}</dd><dt>Valida</dt><dd>${esc(ficha.responsable_validacion)}</dd><dt>Consulta</dt><dd>${esc(ficha.consulta_id)}</dd></dl>` : ""}
-  ${calls.length ? `<details class="detalle-tecnico"><summary>Detalle técnico</summary>${calls.map((t) => `<pre>${esc(t.nombre + "\n" + JSON.stringify(t.args, null, 2))}</pre>`).join("")}</details>` : ""}`
+  const p = (n, b, s, mal) => `<div class="p${mal ? " mal" : ""}"><i>${n}</i><div><b>${b}</b><br><span>${s}</span></div></div>`
+  return `<div class="rastro">
+    ${p(1, "Entendí tu pregunta", calls.length ? "y busqué en la base de ventas" : "y respondí sin consultar la base")}
+    ${p(2, "Consulté", esc(que.join(" · ") || "nada"))}
+    ${p(3, "La base hizo las cuentas", "Yo no calculo: copio lo que la base devuelve")}
+    ${p(4, malas ? "Ojo con estas cifras" : "Revisé cada cifra", malas ? esc(v.no_verificadas.join(", ")) + " no salen de los datos" : v.cifras ? `Las ${v.cifras} coinciden con los datos` : "No había cifras que revisar", malas)}
+    ${ficha ? `<span style="color:var(--suave)">Fuente: base única de ventas de Brío · corte ${esc(ficha.corte)} · ${esc(ficha.metrica)} = ${esc(ficha.definicion)} · valida ${esc(ficha.responsable_validacion)}</span>` : ""}
+  </div>`
 }
 
-function mostrarRastro(i, animar) {
-  const ev = respuestas[i]
-  if (!ev) return
-  document.querySelectorAll(".respuesta").forEach((n) => n.classList.toggle("activa", Number(n.dataset.i) === i))
-  const cuerpo = $("rastro-cuerpo")
-  cuerpo.innerHTML = rastroHtml(ev)
-  cuerpo.classList.toggle("anim", !!animar)
-  $("rastro").querySelector(".sub").textContent = "Respuesta " + (i + 1)
-}
-
-function agregar(ev, animar) {
-  const div = document.createElement("div")
-  if (ev.rol === "usuario") {
-    div.className = "pregunta"
-    div.textContent = ev.texto
-  } else {
-    const i = respuestas.push(ev) - 1
-    const idx = ++turno
-    div.className = "respuesta" + (ev.error ? " error" : "")
-    div.dataset.i = i
-    div.innerHTML = `<div class="texto">${md(ev.texto || "")}</div>${cifraHtml(ev.toolCalls)}
-      <div class="pie">${selloHtml(ev.verificacion)}
-        ${ev.error ? "" : `<button type="button" class="ver-rastro">Cómo se obtuvo</button>
-        <span class="fb"><button type="button" data-u="1" aria-pressed="false">Me sirvió</button><button type="button" data-u="0" aria-pressed="false">Tiene un error</button></span>`}
-      </div>
-      <div class="rastro-movil" hidden></div>`
-    const rm = div.querySelector(".rastro-movil")
-    div.querySelector(".ver-rastro")?.addEventListener("click", () => {
-      mostrarRastro(i, true)
-      if (window.matchMedia("(max-width: 960px)").matches) {
-        rm.hidden = !rm.hidden
-        rm.innerHTML = rm.hidden ? "" : rastroHtml(ev)
-      }
-    })
-    div.querySelectorAll(".fb button").forEach((b) => {
-      b.onclick = async () => {
-        div.querySelectorAll(".fb button").forEach((x) => x.setAttribute("aria-pressed", "false"))
-        b.setAttribute("aria-pressed", "true")
-        const util = b.dataset.u === "1"
-        const comentario = util ? "" : (prompt("¿Qué estaba mal? Nos ayuda a corregirlo.") || "")
-        try { await api("/api/feedback", { method: "POST", body: JSON.stringify({ sessionId, indice: idx, util, comentario }) }) } catch {}
-      }
-    })
-    if (!ev.error) mostrarRastro(i, animar)
+// Botones de respuesta rápida según lo que se acaba de consultar
+function sugerencias(ev) {
+  const t = (ev.toolCalls || []).find((x) => x.ok)
+  if (!t) return INICIALES.slice(0, 2)
+  const a = t.args || {}
+  const per = a.desde ? `de ${periodo(a.desde, a.hasta)}` : ""
+  if (t.nombre === "brio_consultar_ventas") {
+    const out = []
+    if (a.agrupar_por !== "region") out.push(`📍 ¿Y por región, ${per}?`)
+    if (a.agrupar_por !== "canal") out.push(`🛒 ¿Y por canal, ${per}?`)
+    if (a.agrupar_por !== "mes") out.push(`📅 ¿Mes a mes, ${per}?`)
+    out.push("📚 ¿Qué dicen los estudios?")
+    return out.slice(0, 3)
   }
-  $("columna").appendChild(div)
-  $("log").scrollTop = $("log").scrollHeight
+  if (t.nombre === "brio_definicion") return ["💰 ¿Cuánto vendimos en 2025?", "📍 ¿Qué región cayó más?"]
+  if (t.nombre === "brio_buscar_estudios") return ["🛒 ¿Cuánto cayó el canal tradicional este año?", "📍 ¿Qué región cayó más?"]
+  return INICIALES.slice(0, 2)
 }
 
-function mostrarInicio() {
+function rapidas(lista) {
   const div = document.createElement("div")
-  div.className = "inicio"
-  div.id = "inicio"
-  div.innerHTML = `<h2>Pregúntale a las ventas de Brío</h2>
-    <p class="lema">Escribe como se lo preguntarías a un colega. Recibes la cifra, de dónde salió y si pasó la revisión.</p>
-    <div class="principio">
-      <div><b>Una sola cifra</b>Ventas netas = brutas − descuentos − devoluciones</div>
-      <div><b>La IA no hace cuentas</b>Las hace la base única de ventas</div>
-      <div><b>Cada cifra se revisa</b>Si algo no tiene respaldo, te avisa</div>
-    </div>
-    <div class="ejemplos">${EJEMPLOS.map((e) => `<button class="ejemplo" type="button" data-q="${esc(e.q)}"><span class="tema">${esc(e.tema)}</span><span class="q">${esc(e.q)}</span></button>`).join("")}</div>`
-  div.querySelectorAll(".ejemplo").forEach((b) => (b.onclick = () => enviar(b.dataset.q)))
-  $("columna").appendChild(div)
+  div.className = "rapidas entra"
+  lista.forEach((q) => {
+    const b = document.createElement("button")
+    b.type = "button"; b.className = "rapida"; b.textContent = q
+    b.onclick = () => enviar(PREGUNTA_REAL[q] || q.replace(/^\S+\s/, ""), q)
+    div.appendChild(b)
+  })
+  $("chat").appendChild(div)
+}
+
+function burbujaYo(texto, ts) {
+  const div = document.createElement("div")
+  div.className = "msg yo entra"
+  div.innerHTML = `<div>${esc(texto)}</div><div class="hora">${horaDe(ts)} <span class="checks">✓✓</span></div>`
+  $("chat").appendChild(div)
+}
+
+function burbujaBot(ev, conSugerencias) {
+  const idx = ++turno
+  const v = ev.verificacion || { cifras: 0, no_verificadas: [] }
+  const malas = (v.no_verificadas || []).length
+  const estado = ev.error || !v.cifras ? "" : malas ? `<span class="estado mal">⚠️ revisar cifras</span>` : `<span class="estado"><span class="checks">✓✓</span>cifras verificadas</span>`
+  const div = document.createElement("div")
+  div.className = "msg bot entra" + (ev.error ? " error" : "")
+  div.innerHTML = `${md(ev.texto || "")}${tarjetas(ev.toolCalls)}
+    ${ev.error ? "" : `<button type="button" class="origen" aria-expanded="false">ℹ️ De dónde salió</button><div class="caja-rastro" hidden></div>`}
+    <div class="hora">${estado}<span>${horaDe(ev.ts)}</span></div>`
+  const btn = div.querySelector(".origen")
+  if (btn) btn.onclick = () => {
+    const c = div.querySelector(".caja-rastro")
+    const abrir = c.hidden
+    c.hidden = !abrir
+    c.innerHTML = abrir ? rastro(ev) : ""
+    btn.setAttribute("aria-expanded", String(abrir))
+  }
+  $("chat").appendChild(div)
+  if (!ev.error) {
+    const r = document.createElement("div")
+    r.className = "reacciones"
+    r.innerHTML = `<button type="button" data-u="1" aria-pressed="false">👍 Me sirvió</button><button type="button" data-u="0" aria-pressed="false">👎 Tiene un error</button>`
+    r.querySelectorAll("button").forEach((b) => (b.onclick = async () => {
+      r.querySelectorAll("button").forEach((x) => x.setAttribute("aria-pressed", "false"))
+      b.setAttribute("aria-pressed", "true")
+      const util = b.dataset.u === "1"
+      const comentario = util ? "" : (prompt("¿Qué estaba mal? Nos ayuda a corregirlo.") || "")
+      try { await api("/api/feedback", { method: "POST", body: JSON.stringify({ sessionId, indice: idx, util, comentario }) }) } catch {}
+    }))
+    $("chat").appendChild(r)
+  }
+  if (conSugerencias) rapidas(sugerencias(ev))
+}
+
+function bienvenida() {
+  const d = document.createElement("div")
+  d.className = "dia"; d.textContent = "Hoy"
+  $("chat").appendChild(d)
+  const div = document.createElement("div")
+  div.className = "msg bot entra"
+  div.innerHTML = `<p>¡Hola! 👋 Soy el copiloto de <b>Brío</b>.</p>
+    <p>Pregúntame por ventas, regiones, canales o estudios. Te respondo con la cifra exacta y te muestro de dónde salió.</p>
+    <p>Cuando veas <span class="checks" style="font-size:16px">✓✓</span> <b>en azul</b>, la cifra está verificada contra los datos.</p>
+    <div class="hora"><span>${horaDe()}</span></div>`
+  $("chat").appendChild(div)
+  rapidas(INICIALES)
 }
 
 let ocupado = false
-async function enviar(texto) {
+async function enviar(texto, mostrado) {
   if (ocupado || !texto.trim()) return
   ocupado = true
   $("enviar").disabled = true
-  $("inicio")?.remove()
-  agregar({ rol: "usuario", texto })
+  document.querySelectorAll(".rapidas").forEach((n) => n.remove())
+  burbujaYo(mostrado || texto)
   const espera = document.createElement("div")
-  espera.className = "esperando"
-  const inicio = Date.now()
-  const pintar = () => { espera.innerHTML = `<span class="punto"></span>Consultando la base de ventas… ${Math.round((Date.now() - inicio) / 1000)} s` }
-  pintar()
-  const reloj = setInterval(pintar, 1000)
-  $("columna").appendChild(espera)
+  espera.className = "escribiendo"
+  espera.innerHTML = `<span class="puntos"><i></i><i></i><i></i></span> Brío está consultando la base…`
+  $("chat").appendChild(espera)
+  $("estado-linea").textContent = "escribiendo…"
   $("log").scrollTop = $("log").scrollHeight
   try {
     const res = await api("/api/chat", { method: "POST", body: JSON.stringify({ sessionId, message: texto }) })
     const data = await res.json()
-    if (!res.ok) agregar({ rol: "asistente", texto: data.error || "El servidor no pudo procesar la pregunta. Vuelve a enviarla.", error: true })
-    else agregar({ rol: "asistente", texto: data.reply, toolCalls: data.toolCalls, verificacion: data.verificacion, error: data.error }, true)
-  } catch {
-    agregar({ rol: "asistente", texto: "No hay conexión con el servidor. Revisa tu conexión y vuelve a enviar la pregunta.", error: true })
-  } finally {
-    clearInterval(reloj)
     espera.remove()
+    if (!res.ok) burbujaBot({ texto: data.error || "No pude procesar la pregunta. Vuelve a enviarla.", error: true }, false)
+    else burbujaBot({ texto: data.reply, toolCalls: data.toolCalls, verificacion: data.verificacion, error: data.error }, true)
+  } catch {
+    espera.remove()
+    burbujaBot({ texto: "No hay conexión con el servidor. Revisa tu internet y vuelve a enviar la pregunta.", error: true }, false)
+  } finally {
+    $("estado-linea").textContent = "en línea · responde con cifras verificadas"
     ocupado = false
     $("enviar").disabled = false
+    $("log").scrollTop = $("log").scrollHeight
     $("input").focus()
   }
 }
@@ -442,17 +406,17 @@ $("input").addEventListener("keydown", (e) => { if (e.key === "Enter" && !e.shif
 $("nueva").onclick = () => { store.set("sessionId", crypto.randomUUID()); location.reload() }
 
 async function iniciar() {
-  try {
-    const h = await (await fetch("/api/health")).json()
-    $("modelo").textContent = h.llm_configurado ? `Modelo: ${h.model}` : "Modelo no configurado"
-  } catch { $("modelo").textContent = "Sin conexión" }
   let historial = []
   try {
     const rs = await api(`/api/sessions/${sessionId}`)
     if (rs.ok) historial = (await rs.json()).historial
   } catch {}
-  if (!historial.length) mostrarInicio()
-  historial.forEach((ev) => agregar(ev, false))
+  bienvenida()
+  if (historial.length) {
+    document.querySelectorAll(".rapidas").forEach((n) => n.remove())
+    historial.forEach((ev, i) => (ev.rol === "usuario" ? burbujaYo(ev.texto, ev.ts) : burbujaBot(ev, i === historial.length - 1)))
+    $("log").scrollTop = $("log").scrollHeight
+  }
 }
 iniciar()
 </script>
