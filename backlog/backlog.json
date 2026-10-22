@@ -499,6 +499,30 @@
                   "max": 10
                 }
               }
+            },
+            {
+              "titulo": "PBI-28 · Ampliar la batería de prueba a 50 preguntas con Mercadeo",
+              "historia": "Como analista de Mercadeo de Brío, quiero ampliar la batería de prueba a 50 preguntas con Mercadeo, para salir a datos reales con más cobertura.",
+              "criterios": [
+                "50 preguntas con respuesta correcta calculada a mano",
+                "Expertos de Mercadeo"
+              ],
+              "esfuerzo": 2,
+              "prioridad": 1,
+              "valor": 100,
+              "estado": "New",
+              "tags": [
+                "IA-01",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "expertos": {
+                  "min": 2,
+                  "prob": 4,
+                  "max": 6
+                }
+              }
             }
           ]
         },
@@ -654,12 +678,13 @@
               }
             },
             {
-              "titulo": "PBI-23 · Configurar el asistente revisor y ejecutar 3-4 sesiones",
-              "historia": "Como Ingeniero de Producto IA, quiero configurar el asistente revisor y ejecutar 3-4 sesiones, para probar si mejora la calidad del documento.",
+              "titulo": "PBI-23 · Preparar instrucciones en Copilot Chat y acompañar 3-4 sesiones",
+              "historia": "Como Ingeniero de Producto IA, quiero preparar instrucciones en Copilot Chat y acompañar 3-4 sesiones, para probar si mejora la calidad del documento sin construir nada.",
               "criterios": [
-                "Calificación ciega de documentos con y sin asistente"
+                "Calificación ciega de documentos con y sin asistente",
+                "Usa Copilot Chat de Microsoft 365 (S-37)"
               ],
-              "esfuerzo": 8,
+              "esfuerzo": 3,
               "prioridad": 2,
               "valor": 60,
               "estado": "New",
@@ -670,9 +695,9 @@
               "area": "Ingeniería",
               "horas": {
                 "ingenieria": {
-                  "min": 8,
-                  "prob": 12,
-                  "max": 16
+                  "min": 2,
+                  "prob": 4,
+                  "max": 6
                 }
               }
             },
@@ -732,8 +757,8 @@
               }
             },
             {
-              "titulo": "PBI-21 · Preparar guía y ejecutar la prueba creativa con 2-3 briefs",
-              "historia": "Como Ingeniero de Producto IA, quiero preparar guía y ejecutar la prueba creativa con 2-3 briefs, para saber si acelera piezas aprobadas.",
+              "titulo": "PBI-21 · Preparar guía y ejecutar la prueba creativa con 2-3 briefs en Copilot",
+              "historia": "Como Ingeniero de Producto IA, quiero preparar guía y ejecutar la prueba creativa con 2-3 briefs en Copilot, para saber si acelera piezas aprobadas.",
               "criterios": [
                 "Piezas aprobadas y rondas de ajuste medidas",
                 "Condicionado (S-13)"
@@ -758,6 +783,112 @@
                   "min": 4,
                   "prob": 6,
                   "max": 8
+                }
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "clave": "E3",
+      "titulo": "Fondo externo y compras",
+      "descripcion": "Uso del fondo externo (COP 18,6 M de 30, condicionado): horas de datos para la base única, informes automáticos (IA-06), auditoría de datos de pronóstico y quiebres, respaldo del modelo. Evaluación de compra de soporte y contratos sin desembolso.",
+      "estado": "New",
+      "features": [
+        {
+          "clave": "F3.1",
+          "titulo": "Equipo externo de datos",
+          "estado": "New",
+          "pbis": [
+            {
+              "titulo": "PBI-26 · Supervisar el trabajo del equipo externo de datos",
+              "historia": "Como Ingeniero de Producto IA, quiero supervisar el trabajo del equipo externo de datos, para que la base única y los informes externos cumplan el estándar.",
+              "criterios": [
+                "Entregables externos aceptados contra criterios y 0 diferencias",
+                "Depende de aprobar el fondo (D-23)"
+              ],
+              "esfuerzo": 2,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "EXT",
+                "Ingeniería",
+                "Condicionado"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 4,
+                  "prob": 6,
+                  "max": 8
+                },
+                "datos": {
+                  "min": 1,
+                  "prob": 2,
+                  "max": 3
+                }
+              }
+            },
+            {
+              "titulo": "PBI-27 · Revisar al proveedor externo de datos",
+              "historia": "Como Responsable de Seguridad, quiero revisar al proveedor externo de datos, para dar acceso a datos de ventas sin riesgo.",
+              "criterios": [
+                "Concepto de Seguridad y accesos de mínimo privilegio",
+                "Depende de aprobar el fondo (D-23)"
+              ],
+              "esfuerzo": 2,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "EXT",
+                "Seguridad",
+                "Condicionado"
+              ],
+              "area": "Seguridad",
+              "horas": {
+                "seguridad": {
+                  "min": 1,
+                  "prob": 2,
+                  "max": 3
+                }
+              }
+            }
+          ]
+        },
+        {
+          "clave": "F3.2",
+          "titulo": "Evaluación de compra: soporte y contratos",
+          "estado": "New",
+          "pbis": [
+            {
+              "titulo": "PBI-25 · Preparar la evaluación de compra de soporte interno y revisión de contratos",
+              "historia": "Como Ingeniero de Producto IA, quiero preparar la evaluación de compra de soporte interno y revisión de contratos, para comprar con datos en el mes 4 sin empezar de cero.",
+              "criterios": [
+                "Requisitos, documento neutral para proveedores y comparación de lista corta",
+                "Sin desembolso; Seguridad revisa términos de datos de la lista corta"
+              ],
+              "esfuerzo": 3,
+              "prioridad": 2,
+              "valor": 60,
+              "estado": "New",
+              "tags": [
+                "IA-09/10",
+                "Ingeniería"
+              ],
+              "area": "Ingeniería",
+              "horas": {
+                "ingenieria": {
+                  "min": 6,
+                  "prob": 10,
+                  "max": 14
+                },
+                "seguridad": {
+                  "min": 1,
+                  "prob": 2,
+                  "max": 3
                 }
               }
             }

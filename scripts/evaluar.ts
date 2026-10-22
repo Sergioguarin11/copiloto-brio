@@ -32,8 +32,9 @@ function cifrasEsperadas(p: Pregunta): string[] {
   const e = p.esperado ?? {}
   const vals: string[] = []
   const tomar = (o: Record<string, unknown>) => ["valor_fmt", "variacion_fmt"].forEach((k) => typeof o[k] === "string" && vals.push(o[k] as string))
-  if (e.total) tomar(e.total)
-  if (e.filas && p.id === "C04") tomar(e.filas[e.mayor_caida] ?? {}) // basta la región con mayor caída
+  // C04 pregunta por la región que más cayó: se exigen sus cifras, no el total de la marca.
+  if (e.mayor_caida) tomar(e.filas[e.mayor_caida] ?? {})
+  else if (e.total) tomar(e.total)
   if (e.comparacion) vals.push(e.comparacion.finanzas, e.comparacion.comercial)
   return vals.map((v) => v.replace(/^COP\s*/, "").replace(/\s*(M|%|pp|unidades)$/, "").replace(/^\+/, "").trim())
 }
@@ -50,7 +51,8 @@ for (const [i, p] of lista.entries()) {
     const r = await ejecutarTurno(sesion, p.pregunta, { llm, sistema, directory: ROOT, limites })
     const usadas = r.toolCalls.map((t) => t.nombre)
     let consulta: boolean | null = null
-    if (p.consulta) {
+    // En preguntas fuera de alcance lo que importa es la honestidad, no qué herramienta usó.
+    if (p.consulta && p.tipo !== "fuera_de_alcance") {
       const a = p.consulta.args
       consulta = r.toolCalls.some((t) => t.nombre === p.consulta!.herramienta && ["metrica", "desde", "hasta", "comparar_desde", "comparar_hasta"].every((k) => a[k] === undefined || t.args[k] === a[k]) && (a.comparar_con === undefined || a.comparar_con === "ninguna" || t.args.comparar_con === a.comparar_con))
     }

@@ -7,10 +7,10 @@ ROLES = {"Datos": "Responsable de Datos", "Ingeniería": "analista de Mercadeo d
 def pbi(p, estado="New"):
     pid, fr, area, tit, para, crit, pts, ing, dat, seg, exp, nota = p
     horas = {k: {"min": v[0], "prob": v[1], "max": v[2]} for k, v in (("ingenieria", ing), ("datos", dat), ("seguridad", seg), ("expertos", exp)) if any(v)}
-    quien = "Ingeniero de Producto IA" if area == "Ingeniería" and fr != "IA-01" else ROLES[area]
+    quien = "Ingeniero de Producto IA" if area == "Ingeniería" and fr not in ("IA-01",) else ROLES[area]
     return {"titulo": f"{pid} · {tit}", "historia": f"Como {quien}, quiero {tit[0].lower() + tit[1:]}, para {para[0].lower() + para[1:]}.",
             "criterios": [crit] + ([nota] if nota else []), "esfuerzo": pts, "prioridad": 1 if fr == "IA-01" else 2,
-            "valor": 100 if fr == "IA-01" else 60, "estado": estado, "tags": [fr, area] + (["Condicionado"] if fr == "IA-04" else []), "area": area, "horas": horas}
+            "valor": 100 if fr == "IA-01" else 60, "estado": estado, "tags": [fr, area] + (["Condicionado"] if fr in ("IA-04", "EXT") else []), "area": area, "horas": horas}
 por = lambda fr, area=None: [pbi(p) for p in PBIS if p[1] == fr and (area is None or p[2] == area)]
 proto = [
     {"titulo": "PROTO-01 · Tabla validada sintética de ventas de Brío", "historia": "Como Ingeniero de Producto IA, quiero una tabla de ventas sintética con la definición única, para demostrar el copiloto sin datos reales.", "criterios": ["Ventas netas 2025 = COP 36.000 M, igual al dato confirmado del archivo 03", "Neta = brutas − descuentos − devoluciones en cada fila"], "esfuerzo": 3, "prioridad": 1, "valor": 80, "estado": "Done", "tags": ["Prototipo"]},
@@ -30,6 +30,9 @@ b = {"producto": "Copiloto de análisis Brío con cifras confiables", "proceso":
     {"clave": "E2", "titulo": "Experimentos en paralelo para Dirección", "descripcion": "Validar antes de construir los pedidos del CEO: promociones (IA-02), decisiones (IA-05) y creatividad condicionada (IA-04).", "estado": "New",
      "features": [{"clave": "F2.1", "titulo": "IA-02 · Experimento de promociones por región", "estado": "New", "pbis": por("IA-02")},
                   {"clave": "F2.2", "titulo": "IA-05 · Validación del asistente de decisiones", "estado": "New", "pbis": por("IA-05")},
-                  {"clave": "F2.3", "titulo": "IA-04 · Prueba creativa (condicionada)", "estado": "New", "pbis": por("IA-04")}]}]}
+                  {"clave": "F2.3", "titulo": "IA-04 · Prueba creativa (condicionada)", "estado": "New", "pbis": por("IA-04")}]},
+    {"clave": "E3", "titulo": "Fondo externo y compras", "descripcion": "Uso del fondo externo (COP 18,6 M de 30, condicionado): horas de datos para la base única, informes automáticos (IA-06), auditoría de datos de pronóstico y quiebres, respaldo del modelo. Evaluación de compra de soporte y contratos sin desembolso.", "estado": "New",
+     "features": [{"clave": "F3.1", "titulo": "Equipo externo de datos", "estado": "New", "pbis": por("EXT")},
+                  {"clave": "F3.2", "titulo": "Evaluación de compra: soporte y contratos", "estado": "New", "pbis": por("IA-09/10")}]}]}
 json.dump(b, open(os.path.join(os.path.dirname(__file__), "..", "backlog", "backlog.json"), "w", encoding="utf-8"), ensure_ascii=False, indent=2)
 print(sum(len(f["pbis"]) for e in b["epicas"] for f in e["features"]), "PBIs")

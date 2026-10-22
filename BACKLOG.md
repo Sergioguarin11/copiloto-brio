@@ -2,13 +2,14 @@
 
 Proceso **Scrum** (Épica → Feature → Product Backlog Item). Fuente única: `backlog/backlog.json`, cargada también en Azure DevOps con `bun run backlog cargar`.
 
-**Avance:** 5 de 30 PBIs terminados · 26 de 169 puntos de esfuerzo.
+**Avance:** 5 de 34 PBIs terminados · 26 de 173 puntos de esfuerzo.
 
 | Épica | Estado | PBIs | Puntos |
 |---|---|---|---|
 | E0 · Prototipo para la prueba (datos sintéticos) | In Progress | 6 | 29 |
-| E1 · IA-01 · Copiloto de análisis Brío – Mercadeo | New | 17 | 105 |
-| E2 · Experimentos en paralelo para Dirección | New | 7 | 35 |
+| E1 · IA-01 · Copiloto de análisis Brío – Mercadeo | New | 18 | 107 |
+| E2 · Experimentos en paralelo para Dirección | New | 7 | 30 |
+| E3 · Fondo externo y compras | New | 3 | 7 |
 
 ## E0 · Prototipo para la prueba (datos sintéticos)
 
@@ -252,6 +253,18 @@ Como analista de Mercadeo de Brío, quiero documentar y traspasar a operación, 
 Criterios de aceptación:
 - Manual y dueño de operación asignado
 
+#### ⬜ PBI-28 · Ampliar la batería de prueba a 50 preguntas con Mercadeo
+
+Como analista de Mercadeo de Brío, quiero ampliar la batería de prueba a 50 preguntas con Mercadeo, para salir a datos reales con más cobertura.
+
+**Estado:** New · **Esfuerzo:** 2 · **Prioridad:** 1 · **Valor de negocio:** 100 · `IA-01` `Ingeniería`
+
+**Horas (mín / probable / máx):** expertos 2 / 4 / 6
+
+Criterios de aceptación:
+- 50 preguntas con respuesta correcta calculada a mano
+- Expertos de Mercadeo
+
 ### F1.3 · Controles de seguridad (Seguridad)
 
 #### ⬜ PBI-16 · Revisar arquitectura, datos y proveedor del modelo
@@ -321,16 +334,17 @@ Criterios de aceptación:
 - Rúbrica aprobada y 5-6 documentos calificados
 - Dirección: 2-4 h [Por confirmar]
 
-#### ⬜ PBI-23 · Configurar el asistente revisor y ejecutar 3-4 sesiones
+#### ⬜ PBI-23 · Preparar instrucciones en Copilot Chat y acompañar 3-4 sesiones
 
-Como Ingeniero de Producto IA, quiero configurar el asistente revisor y ejecutar 3-4 sesiones, para probar si mejora la calidad del documento.
+Como Ingeniero de Producto IA, quiero preparar instrucciones en Copilot Chat y acompañar 3-4 sesiones, para probar si mejora la calidad del documento sin construir nada.
 
-**Estado:** New · **Esfuerzo:** 8 · **Prioridad:** 2 · **Valor de negocio:** 60 · `IA-05` `Ingeniería`
+**Estado:** New · **Esfuerzo:** 3 · **Prioridad:** 2 · **Valor de negocio:** 60 · `IA-05` `Ingeniería`
 
-**Horas (mín / probable / máx):** ingenieria 8 / 12 / 16
+**Horas (mín / probable / máx):** ingenieria 2 / 4 / 6
 
 Criterios de aceptación:
 - Calificación ciega de documentos con y sin asistente
+- Usa Copilot Chat de Microsoft 365 (S-37)
 
 #### ⬜ PBI-24 · Revisar seguridad de contenido sensible
 
@@ -357,9 +371,9 @@ Criterios de aceptación:
 - Concepto de Seguridad sobre la herramienta
 - Condicionado (S-13)
 
-#### ⬜ PBI-21 · Preparar guía y ejecutar la prueba creativa con 2-3 briefs
+#### ⬜ PBI-21 · Preparar guía y ejecutar la prueba creativa con 2-3 briefs en Copilot
 
-Como Ingeniero de Producto IA, quiero preparar guía y ejecutar la prueba creativa con 2-3 briefs, para saber si acelera piezas aprobadas.
+Como Ingeniero de Producto IA, quiero preparar guía y ejecutar la prueba creativa con 2-3 briefs en Copilot, para saber si acelera piezas aprobadas.
 
 **Estado:** New · **Esfuerzo:** 5 · **Prioridad:** 2 · **Valor de negocio:** 60 · `IA-04` `Ingeniería` `Condicionado`
 
@@ -368,3 +382,47 @@ Como Ingeniero de Producto IA, quiero preparar guía y ejecutar la prueba creati
 Criterios de aceptación:
 - Piezas aprobadas y rondas de ajuste medidas
 - Condicionado (S-13)
+
+## E3 · Fondo externo y compras
+
+_New._ Uso del fondo externo (COP 18,6 M de 30, condicionado): horas de datos para la base única, informes automáticos (IA-06), auditoría de datos de pronóstico y quiebres, respaldo del modelo. Evaluación de compra de soporte y contratos sin desembolso.
+
+### F3.1 · Equipo externo de datos
+
+#### ⬜ PBI-26 · Supervisar el trabajo del equipo externo de datos
+
+Como Ingeniero de Producto IA, quiero supervisar el trabajo del equipo externo de datos, para que la base única y los informes externos cumplan el estándar.
+
+**Estado:** New · **Esfuerzo:** 2 · **Prioridad:** 2 · **Valor de negocio:** 60 · `EXT` `Ingeniería` `Condicionado`
+
+**Horas (mín / probable / máx):** ingenieria 4 / 6 / 8 · datos 1 / 2 / 3
+
+Criterios de aceptación:
+- Entregables externos aceptados contra criterios y 0 diferencias
+- Depende de aprobar el fondo (D-23)
+
+#### ⬜ PBI-27 · Revisar al proveedor externo de datos
+
+Como Responsable de Seguridad, quiero revisar al proveedor externo de datos, para dar acceso a datos de ventas sin riesgo.
+
+**Estado:** New · **Esfuerzo:** 2 · **Prioridad:** 2 · **Valor de negocio:** 60 · `EXT` `Seguridad` `Condicionado`
+
+**Horas (mín / probable / máx):** seguridad 1 / 2 / 3
+
+Criterios de aceptación:
+- Concepto de Seguridad y accesos de mínimo privilegio
+- Depende de aprobar el fondo (D-23)
+
+### F3.2 · Evaluación de compra: soporte y contratos
+
+#### ⬜ PBI-25 · Preparar la evaluación de compra de soporte interno y revisión de contratos
+
+Como Ingeniero de Producto IA, quiero preparar la evaluación de compra de soporte interno y revisión de contratos, para comprar con datos en el mes 4 sin empezar de cero.
+
+**Estado:** New · **Esfuerzo:** 3 · **Prioridad:** 2 · **Valor de negocio:** 60 · `IA-09/10` `Ingeniería`
+
+**Horas (mín / probable / máx):** ingenieria 6 / 10 / 14 · seguridad 1 / 2 / 3
+
+Criterios de aceptación:
+- Requisitos, documento neutral para proveedores y comparación de lista corta
+- Sin desembolso; Seguridad revisa términos de datos de la lista corta
