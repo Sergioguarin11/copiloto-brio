@@ -6,6 +6,8 @@ Copiloto de análisis para los analistas de Mercadeo de la marca Brío. Responde
 
 **Pruébalo en línea:** https://copiloto-brio.calmwater-0e4a7472.eastus2.azurecontainerapps.io
 
+**Simulador del plan (valor, recursos, portafolio y supuestos):** https://sergioguarin11.github.io/copiloto-brio/
+
 > ⚠️ **Datos sintéticos.** La tabla de ventas y los estudios fueron creados para la prueba técnica de Ingeniero de Producto IA (caso ficticio Almena Foods). Las ventas netas de 2025 suman COP 36.000 M para cuadrar con el dato confirmado del caso.
 
 ## Qué demuestra
@@ -68,6 +70,14 @@ az containerapp create -n copiloto-brio -g <grupo-de-recursos> \
   --secrets gemini-key="$K" \
   --env-vars GEMINI_API_KEY=secretref:gemini-key LLM_THINKING=low LLM_TIMEOUT_MS=90000
 unset K
+```
+
+## Simulador del plan (GitHub Pages)
+
+`docs/index.html` se genera desde el anexo auditable `anexo/03_Anexo_Calculos.xlsx`, así las cifras del simulador y del Excel son las mismas:
+
+```bash
+python3 scripts/simulador/make_sim.py   # requiere openpyxl
 ```
 
 ## Backlog (Azure DevOps)

@@ -1,0 +1,503 @@
+<title>Simulador Copiloto Brío</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Rubik:wght@500;600;700&family=Nunito+Sans:opsz,wght@6..12,400;6..12,600;6..12,700;6..12,800&display=swap">
+<style>
+/* Layout: barra fija con 4 pestañas; cada pestaña = controles a la izquierda, resultados a la derecha; una columna en celular. Paleta y tipos de la presentación. */
+:root{
+  --bg:#FFF8EF; --surface:#FFFFFF; --sunk:#F6EFE4; --ink:#1F2A44; --muted:#5C6474; --line:#E7DFD2;
+  --green:#1F7A4D; --green-soft:#E3F2E8; --blue:#2D64A8; --blue-soft:#E3ECF8; --purple:#6E46A0; --purple-soft:#EFE8F7;
+  --grey:#636B78; --grey-soft:#ECEDEF; --accent:#B8501F; --accent-soft:#FDE9DA; --bad:#B42318; --bad-soft:#FDE7E5; --warn:#9A5B05; --warn-soft:#FEF2D9;
+  --navy:#1F2A44; --on-navy:#FFF8EF;
+  --f-display:'Rubik', 'Segoe UI', Arial, sans-serif; --f-body:'Nunito Sans', 'Segoe UI', Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#131A29; --surface:#1B2336; --sunk:#172033; --ink:#EEF0F5; --muted:#A3AABA; --line:#2C3650;
+  --green:#55C08A; --green-soft:#16362A; --blue:#7AA7E6; --blue-soft:#1A2D4A; --purple:#B096DE; --purple-soft:#2A2142;
+  --grey:#9AA2B1; --grey-soft:#262F43; --accent:#F08A4B; --accent-soft:#3A2418; --bad:#F2857B; --bad-soft:#3D1C1C; --warn:#F2B04B; --warn-soft:#3A2C12;
+  --navy:#0D1320; --on-navy:#FFF8EF; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#131A29; --surface:#1B2336; --sunk:#172033; --ink:#EEF0F5; --muted:#A3AABA; --line:#2C3650;
+  --green:#55C08A; --green-soft:#16362A; --blue:#7AA7E6; --blue-soft:#1A2D4A; --purple:#B096DE; --purple-soft:#2A2142;
+  --grey:#9AA2B1; --grey-soft:#262F43; --accent:#F08A4B; --accent-soft:#3A2418; --bad:#F2857B; --bad-soft:#3D1C1C; --warn:#F2B04B; --warn-soft:#3A2C12;
+  --navy:#0D1320; --on-navy:#FFF8EF; color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--bg);color:var(--ink);font-family:var(--f-body);font-size:16px;line-height:1.45;margin:0}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:10;background:var(--navy)}
+h1,h2,h3{font-family:var(--f-display);text-wrap:balance;margin:0;line-height:1.15}
+p{margin:0}
+.wrap{max-width:1180px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+header{position:sticky;top:env(safe-area-inset-top,0px);z-index:5;background:var(--navy);color:var(--on-navy)}
+header .wrap{display:flex;flex-wrap:wrap;align-items:center;gap:10px 24px;padding-block:12px}
+.brand{display:flex;flex-direction:column;gap:2px;min-width:0}
+.brand h1{font-size:20px;font-weight:700}
+.brand p{font-size:13px;opacity:.75}
+nav{display:flex;gap:4px;flex-wrap:wrap;margin-left:auto}
+nav button{font:700 14px var(--f-body);color:var(--on-navy);background:transparent;border:1px solid rgba(255,248,239,.25);border-radius:999px;padding:7px 14px;cursor:pointer}
+nav button[aria-selected="true"]{background:var(--on-navy);color:#1F2A44;border-color:var(--on-navy)}
+nav button:focus-visible,button:focus-visible,input:focus-visible{outline:3px solid var(--accent);outline-offset:2px}
+main{padding-block:24px 48px}
+.lead{display:flex;flex-direction:column;gap:6px;margin-bottom:20px;max-width:760px}
+.lead h2{font-size:30px}
+.lead p{color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,340px) minmax(0,1fr);gap:24px;align-items:start}
+@media (max-width:860px){.grid{grid-template-columns:minmax(0,1fr)}}
+.panel{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:18px;display:flex;flex-direction:column;gap:16px;min-width:0}
+.panel h3{font-size:18px}
+.eyebrow{font-size:12px;font-weight:800;letter-spacing:1.4px;text-transform:uppercase;color:var(--accent)}
+.ctl{display:flex;flex-direction:column;gap:6px}
+.ctl .row{display:flex;justify-content:space-between;gap:8px;align-items:baseline}
+.ctl label{font-weight:700;font-size:15px}
+.ctl output{white-space:nowrap;font:600 17px var(--f-display);font-variant-numeric:tabular-nums}
+.ctl small{color:var(--muted);font-size:12.5px}
+input[type=range]{width:100%;accent-color:var(--accent)}
+.chips{display:flex;flex-wrap:wrap;gap:6px}
+.chip{font:700 13px var(--f-body);border:1px solid var(--line);background:var(--sunk);color:var(--ink);border-radius:999px;padding:6px 12px;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+.chip.hip{border-style:dashed}
+.kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+@media (max-width:1000px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.kpi{border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:4px;min-width:0}
+.kpi .v{white-space:nowrap;font:700 clamp(22px,2.3vw,30px) var(--f-display);font-variant-numeric:tabular-nums;line-height:1.05}
+.kpi .l{font-size:14px;font-weight:700}
+.kpi .s{font-size:12.5px;color:var(--muted)}
+.k-green{background:var(--green-soft)} .k-green .v{color:var(--green)}
+.k-blue{background:var(--blue-soft)} .k-blue .v{color:var(--blue)}
+.k-purple{background:var(--purple-soft)} .k-purple .v{color:var(--purple)}
+.k-grey{background:var(--grey-soft)} .k-grey .v{color:var(--ink)}
+.pill{display:inline-flex;align-items:center;gap:6px;font:800 13px var(--f-body);border-radius:999px;padding:5px 12px}
+.ok{background:var(--green-soft);color:var(--green)} .warn{background:var(--warn-soft);color:var(--warn)} .bad{background:var(--bad-soft);color:var(--bad)}
+.formula{font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;font-size:13.5px;background:var(--sunk);border-radius:10px;padding:12px 14px;line-height:1.7;overflow-x:auto;white-space:nowrap}
+.formula b{color:var(--accent);font-weight:700}
+.ruler{position:relative;height:56px;margin:4px 6px 0}
+.ruler .track{position:absolute;left:0;right:0;top:20px;height:10px;border-radius:5px;background:linear-gradient(90deg,var(--bad-soft) 0 25%,var(--warn-soft) 25% 50%,var(--green-soft) 50% 100%)}
+.ruler .mark{position:absolute;top:12px;width:2px;height:26px;background:var(--muted)}
+.ruler .mark span{position:absolute;top:28px;left:50%;transform:translateX(-50%);font-size:11.5px;color:var(--muted);white-space:nowrap}
+.ruler .dot{position:absolute;top:14px;width:22px;height:22px;border-radius:50%;background:var(--accent);border:3px solid var(--surface);transform:translateX(-50%);transition:left .2s}
+@media (prefers-reduced-motion:reduce){.ruler .dot,.bar i{transition:none}}
+.types{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+@media (max-width:560px){.types{grid-template-columns:minmax(0,1fr)}}
+.type{border:1px solid var(--line);border-radius:10px;padding:10px 12px;display:flex;flex-direction:column;gap:3px;min-width:0}
+.type b{font-size:14px} .type span{font-size:13.5px;color:var(--muted)}
+.tag{font:800 11px var(--f-body);letter-spacing:.6px;text-transform:uppercase;border-radius:6px;padding:2px 6px;align-self:flex-start}
+.t-est{background:var(--blue-soft);color:var(--blue)} .t-hip{background:var(--warn-soft);color:var(--warn)} .t-ev{background:var(--green-soft);color:var(--green)}
+.bars{display:flex;flex-direction:column;gap:14px}
+.bar-row{display:flex;flex-direction:column;gap:5px}
+.bar-row .head{display:flex;justify-content:space-between;gap:8px;flex-wrap:wrap;align-items:baseline}
+.bar-row .head b{font-size:15px}
+.bar-row .head span{font-variant-numeric:tabular-nums;font-size:14px;color:var(--muted)}
+.bar{position:relative;height:22px;border-radius:6px;background:var(--sunk);overflow:hidden;display:flex}
+.bar i{display:block;height:100%;transition:width .25s}
+.bar .cap{position:absolute;top:0;bottom:0;width:2px;background:var(--ink)}
+.legend{display:flex;flex-wrap:wrap;gap:12px;font-size:13px;color:var(--muted)}
+.legend span{display:inline-flex;align-items:center;gap:6px}
+.legend i{width:12px;height:12px;border-radius:3px;display:inline-block}
+.toggles{display:flex;flex-direction:column;gap:8px}
+.tg{display:flex;gap:10px;align-items:flex-start;font-size:14.5px;cursor:pointer}
+.tg input{margin-top:3px;width:18px;height:18px;accent-color:var(--green)}
+.tg small{display:block;color:var(--muted);font-size:12.5px}
+.btnrow{display:flex;gap:8px;flex-wrap:wrap}
+.btn{font:700 14px var(--f-body);border-radius:10px;padding:8px 14px;cursor:pointer;border:1px solid var(--ink);background:transparent;color:var(--ink)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}
+.tablewrap{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:14px}
+th,td{text-align:left;padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+th{font-size:12px;letter-spacing:.6px;text-transform:uppercase;color:var(--muted);background:var(--sunk);position:sticky;top:0}
+td.n,th.n{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+.rt{display:inline-block;font:800 12px var(--f-body);border-radius:6px;padding:3px 8px;white-space:nowrap}
+.r-c{background:var(--green-soft);color:var(--green)} .r-p{background:var(--blue-soft);color:var(--blue)} .r-s{background:var(--purple-soft);color:var(--purple)} .r-d{background:var(--grey-soft);color:var(--grey)}
+.search{width:100%;font:16px var(--f-body);padding:10px 12px;border-radius:10px;border:1px solid var(--line);background:var(--surface);color:var(--ink)}
+.toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+.toolbar .search{flex:1 1 240px;width:auto}
+.count{font-size:13px;color:var(--muted)}
+.summary{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-bottom:16px}
+@media (max-width:700px){.summary{grid-template-columns:minmax(0,1fr)}}
+.note{font-size:13px;color:var(--muted)}
+.stack{display:flex;flex-direction:column;gap:20px;min-width:0}
+footer{border-top:1px solid var(--line)}
+footer .wrap{padding-block:16px;font-size:13px;color:var(--muted);display:flex;flex-wrap:wrap;gap:6px 18px}
+.num{font-variant-numeric:tabular-nums}
+</style>
+
+<header><div class="wrap">
+  <div class="brand"><h1>Simulador Copiloto Brío</h1><p>Almena Foods · plan de IA a 90 días · datos sintéticos</p></div>
+  <nav role="tablist" aria-label="Secciones">
+    <button role="tab" id="tab-valor" data-tab="valor" aria-selected="true">Valor</button>
+    <button role="tab" id="tab-recursos" data-tab="recursos" aria-selected="false">Recursos</button>
+    <button role="tab" id="tab-portafolio" data-tab="portafolio" aria-selected="false">Los 15 pedidos</button>
+    <button role="tab" id="tab-registro" data-tab="registro" aria-selected="false">Supuestos y decisiones</button>
+  </nav>
+</div></header>
+
+<main class="wrap">
+
+<!-- ============ VALOR ============ -->
+<section id="p-valor" role="tabpanel" aria-labelledby="tab-valor">
+  <div class="lead">
+    <h2>¿Cuánto vale el copiloto si cambian los supuestos?</h2>
+    <p>Mueve los controles. Todo se recalcula con las mismas fórmulas del anexo en Excel.</p>
+  </div>
+  <div class="grid">
+    <div class="panel">
+      <div class="eyebrow">Escenarios rápidos</div>
+      <div class="chips" id="escenarios">
+        <button class="chip" data-esc="pes">Pesimista −10 %</button>
+        <button class="chip" data-esc="base" aria-pressed="true">Base −20 %</button>
+        <button class="chip" data-esc="opt">Optimista: 12 analistas</button>
+        <button class="chip hip" data-esc="prom" title="Promesa de Mercadeo, sin ensayo">Promesa Mercadeo −40 %</button>
+      </div>
+      <div class="eyebrow">Supuestos</div>
+      <div class="ctl"><div class="row"><label for="red">Reducción de horas de análisis</label><output id="o-red"></output></div>
+        <input type="range" id="red" min="0" max="40" step="1"><small>S-16 meta 20 % · S-17 umbral 10 % · hipótesis</small></div>
+      <div class="ctl"><div class="row"><label for="ana">Analistas que lo usan</label><output id="o-ana"></output></div>
+        <input type="range" id="ana" min="4" max="12" step="1"><small>DAT-02: 8 con bitácora (observado) · DAT-01: 12 en total</small></div>
+      <div class="ctl"><div class="row"><label for="hs">Horas semanales de análisis</label><output id="o-hs"></output></div>
+        <input type="range" id="hs" min="4" max="15" step="0.5"><small>DAT-03: 9 h, observado en muestra</small></div>
+      <div class="ctl"><div class="row"><label for="ch">Costo por hora de analista</label><output id="o-ch"></output></div>
+        <input type="range" id="ch" min="40000" max="100000" step="1000"><small>DAT-05: COP 68.000, costo imputado (no es caja)</small></div>
+      <div class="ctl"><div class="row"><label for="cap">Horas que se vuelven ahorro de caja</label><output id="o-cap"></output></div>
+        <input type="range" id="cap" min="0" max="100" step="5"><small>S-12: 0 % hasta que Mercadeo defina cómo capturarlas</small></div>
+      <label class="tg"><input type="checkbox" id="cargaFondo"><span><b>Cargar al copiloto todo el fondo pedido</b><small>Peor caso: parte del fondo es para informes y auditoría</small></span></label>
+      <button class="btn" id="resetValor">Volver a los valores del anexo</button>
+    </div>
+
+    <div class="stack">
+      <div class="kpis">
+        <div class="kpi k-green"><span class="l">Horas liberadas al año</span><span class="v" id="k-h"></span><span class="s">Productividad</span></div>
+        <div class="kpi k-blue"><span class="l">Valor de ese tiempo</span><span class="v" id="k-v"></span><span class="s">Costo imputado, no caja</span></div>
+        <div class="kpi k-purple"><span class="l">Ahorro de caja</span><span class="v" id="k-c"></span><span class="s" id="k-cs"></span></div>
+        <div class="kpi k-grey"><span class="l">Meses para recuperar</span><span class="v" id="k-m"></span><span class="s" id="k-ms"></span></div>
+      </div>
+
+      <div class="panel">
+        <div class="row" style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center">
+          <h3>¿Qué decidimos en la semana 12?</h3><span class="pill" id="estado"></span>
+        </div>
+        <div class="ruler" aria-hidden="true">
+          <div class="track"></div>
+          <div class="mark" style="left:25%"><span>10 % umbral</span></div>
+          <div class="mark" style="left:50%"><span>20 % meta</span></div>
+          <div class="mark" style="left:100%"><span>40 % promesa</span></div>
+          <div class="dot" id="dot"></div>
+        </div>
+        <p class="note" id="estadoTxt"></p>
+      </div>
+
+      <div class="panel">
+        <h3>Así se calcula</h3>
+        <div class="formula" id="formula"></div>
+        <p class="note">Las horas de reproceso (18 de cada 100 informes) ya están dentro de las 9 horas semanales; no se suman dos veces.</p>
+      </div>
+
+      <div class="panel">
+        <h3>Los cuatro tipos de valor, por separado</h3>
+        <div class="types">
+          <div class="type"><span class="tag t-est">Estimación</span><b>Productividad</b><span id="t-prod"></span></div>
+          <div class="type"><span class="tag t-hip">Por confirmar</span><b>Ahorro de caja</b><span id="t-caja"></span></div>
+          <div class="type"><span class="tag t-hip">Hipótesis</span><b>Impacto comercial</b><span>Mejores análisis de Brío. No se atribuye en 90 días; ventas de COP 36.000 M no son beneficio del proyecto.</span></div>
+          <div class="type"><span class="tag t-ev">Cualitativo</span><b>Estratégico</b><span>Una sola definición de ventas netas. Es la base para promociones (IA-02) y decisiones (IA-05).</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ RECURSOS ============ -->
+<section id="p-recursos" role="tabpanel" aria-labelledby="tab-recursos" hidden>
+  <div class="lead">
+    <h2>¿Alcanzan las horas y el dinero?</h2>
+    <p>Cada hora de cada equipo tiene destino. Quita frentes, recorta horas o cambia el escenario de esfuerzo y mira qué se rompe.</p>
+  </div>
+  <div class="grid">
+    <div class="panel">
+      <div class="eyebrow">Esfuerzo estimado de los PBIs</div>
+      <div class="chips" id="escRec">
+        <button class="chip" data-i="0">Mínimo</button>
+        <button class="chip" data-i="1" aria-pressed="true">Probable</button>
+        <button class="chip" data-i="2">Máximo</button>
+      </div>
+      <div class="eyebrow">Horas disponibles en 90 días</div>
+      <div class="ctl"><div class="row"><label for="d-ing">Ingeniería IA</label><output id="od-ing"></output></div><input type="range" id="d-ing" min="100" max="300" step="5"><small>DAT-23: 240 h netas</small></div>
+      <div class="ctl"><div class="row"><label for="d-dat">Datos</label><output id="od-dat"></output></div><input type="range" id="d-dat" min="10" max="60" step="1"><small>DAT-24: 35 h, cuello de botella</small></div>
+      <div class="ctl"><div class="row"><label for="d-seg">Seguridad</label><output id="od-seg"></output></div><input type="range" id="d-seg" min="4" max="24" step="1"><small>DAT-25: 12 h</small></div>
+      <div class="ctl"><div class="row"><label for="d-exp">Expertos de Mercadeo</label><output id="od-exp"></output></div><input type="range" id="d-exp" min="5" max="40" step="1"><small>DAT-26: ~20 h, no garantizadas</small></div>
+      <div class="eyebrow">Frentes en el plan</div>
+      <div class="toggles" id="frentes"></div>
+      <div class="btnrow">
+        <button class="btn primary" id="recorte60">Recortar 60 h de ingeniería</button>
+        <button class="btn" id="resetRec">Restablecer</button>
+      </div>
+    </div>
+
+    <div class="stack">
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><h3>Horas por equipo</h3><span class="pill" id="estadoRec"></span></div>
+        <div class="bars" id="bars"></div>
+        <div class="legend" id="legend"></div>
+      </div>
+      <div class="panel">
+        <div style="display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap;align-items:center"><h3>Fondo externo (hasta COP 30 M)</h3><span class="pill" id="estadoFondo"></span></div>
+        <div class="bar-row"><div class="head"><b id="fondoTxt"></b><span>techo COP 30,0 M</span></div><div class="bar" id="fondoBar"></div></div>
+        <div class="toggles" id="fondoUsos"></div>
+        <p class="note">Fondo condicionado a aprobación. No incluye personal interno. Hoy hay 0 contratos de IA aprobados (DAT-31).</p>
+      </div>
+      <div class="panel">
+        <h3>Detalle por frente</h3>
+        <div class="tablewrap"><table id="tFrentes"></table></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ PORTAFOLIO ============ -->
+<section id="p-portafolio" role="tabpanel" aria-labelledby="tab-portafolio" hidden>
+  <div class="lead">
+    <h2>Los 15 pedidos y qué pasa con cada uno</h2>
+    <p>Ninguno se descarta: unos se construyen, otros se prueban, otros se resuelven sin IA o comprando, y el resto entra a la hoja de ruta.</p>
+  </div>
+  <div class="summary" id="pfSummary"></div>
+  <div class="toolbar">
+    <input class="search" id="pfBuscar" type="search" placeholder="Buscar pedido, patrocinador o ruta" aria-label="Buscar pedido">
+    <div class="chips" id="pfRutas"></div>
+  </div>
+  <p class="count" id="pfCount"></p>
+  <div class="tablewrap"><table id="tPf"></table></div>
+</section>
+
+<!-- ============ REGISTRO ============ -->
+<section id="p-registro" role="tabpanel" aria-labelledby="tab-registro" hidden>
+  <div class="lead">
+    <h2>Supuestos, datos y decisiones</h2>
+    <p>Todo lo que respalda las cifras, con su fuente y confiabilidad. Es el mismo contenido de las hojas del anexo.</p>
+  </div>
+  <div class="toolbar">
+    <div class="chips" id="regTipos">
+      <button class="chip" data-t="supuestos" aria-pressed="true">Supuestos</button>
+      <button class="chip" data-t="datos">Datos del material</button>
+      <button class="chip" data-t="decisiones">Decisiones</button>
+      <button class="chip" data-t="pbis">PBIs</button>
+    </div>
+    <input class="search" id="regBuscar" type="search" placeholder="Buscar por ID o palabra" aria-label="Buscar en el registro">
+  </div>
+  <p class="count" id="regCount"></p>
+  <div class="tablewrap"><table id="tReg"></table></div>
+</section>
+</main>
+
+<footer><div class="wrap">
+  <span>Generado desde 03_Anexo_Calculos.xlsx; la fuente auditable es el Excel.</span>
+  <span>Datos sintéticos de la prueba técnica.</span>
+  <a href="https://copiloto-brio.calmwater-0e4a7472.eastus2.azurecontainerapps.io" style="color:var(--accent);font-weight:700">Probar el copiloto</a>
+</div></footer>
+
+<script>
+const D = /*__DATA__*/null;
+const P = D.param;
+const $ = id => document.getElementById(id);
+const nf = (v, d=0) => v.toLocaleString('es-CO', {minimumFractionDigits:d, maximumFractionDigits:d});
+const M = v => 'COP ' + nf(v/1e6, 1) + ' M';
+const pct = v => nf(v*100, 0) + ' %';
+const esc = s => String(s ?? '').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c]));
+
+/* ---------- Pestañas ---------- */
+const TABS = ['valor','recursos','portafolio','registro'];
+function abrir(t){
+  if(!TABS.includes(t)) t='valor';
+  TABS.forEach(x=>{ $('p-'+x).hidden = x!==t; $('tab-'+x).setAttribute('aria-selected', x===t); });
+  try{ history.replaceState(null,'','#'+t); }catch(e){}
+}
+document.querySelectorAll('nav button').forEach(b=>b.onclick=()=>{abrir(b.dataset.tab); window.scrollTo({top:0});});
+
+/* ---------- Estado compartido ---------- */
+const S = {
+  red:P.meta, ana:P.analistasObs, hs:P.hSemana, ch:P.costoHora, cap:P.captura, cargaFondo:false,
+  esc:1, disp:{...P.disp}, frentes:{}, fondo:D.fondo.map(f=>f.incluido===1),
+};
+const FRENTES = [
+  {id:'IA-01', nombre:'Copiloto de análisis', fijo:true, tipo:'c'},
+  {id:'IA-02', nombre:'Experimento de promociones', tipo:'p'},
+  {id:'IA-05', nombre:'Validación de decisiones (Copilot Chat)', tipo:'p'},
+  {id:'IA-09/10', nombre:'Evaluación de compra: soporte y contratos', tipo:'s'},
+  {id:'EXT', nombre:'Supervisar al equipo externo de datos', tipo:'s'},
+  {id:'IA-04', nombre:'Prueba creativa con Copilot', tipo:'p', cond:true},
+];
+FRENTES.forEach(f=>S.frentes[f.id] = !f.cond);
+
+/* ---------- VALOR ---------- */
+const ESC = {pes:{red:.10,ana:8}, base:{red:.20,ana:8}, opt:{red:.20,ana:12}, prom:{red:.40,ana:8}};
+function fondoPedido(){ return D.fondo.reduce((a,f,i)=>a+(S.fondo[i]?f.costo:0),0); }
+function calcValor(){
+  const horas = S.ana*S.hs*P.semanas*S.red;
+  const valor = horas*S.ch;
+  const caja = valor*S.cap;
+  const inv = P.costoIA01 + (S.cargaFondo ? fondoPedido() : 0);
+  const meses = valor>0 ? inv/(valor/12) : Infinity;
+  return {horas, valor, caja, inv, meses};
+}
+function pintarValor(){
+  $('red').value = Math.round(S.red*100); $('ana').value=S.ana; $('hs').value=S.hs; $('ch').value=S.ch; $('cap').value=Math.round(S.cap*100);
+  $('cargaFondo').checked = S.cargaFondo;
+  $('o-red').textContent = pct(S.red); $('o-ana').textContent = S.ana; $('o-hs').textContent = nf(S.hs, S.hs%1?1:0)+' h';
+  $('o-ch').textContent = 'COP '+nf(S.ch); $('o-cap').textContent = pct(S.cap);
+  const r = calcValor();
+  $('k-h').textContent = nf(r.horas)+' h';
+  $('k-v').textContent = M(r.valor);
+  $('k-c').textContent = M(r.caja);
+  $('k-cs').textContent = S.cap===0 ? 'Cero hasta definir cómo se captura' : pct(S.cap)+' de las horas con mecanismo de captura';
+  $('k-m').textContent = isFinite(r.meses) ? nf(r.meses,1) : '—';
+  $('k-ms').textContent = 'Sobre una inversión imputada de '+M(r.inv);
+  // regla
+  $('dot').style.left = Math.min(100, S.red/0.40*100)+'%';
+  const e = $('estado'), t=$('estadoTxt');
+  if(S.red < P.umbral){ e.className='pill bad'; e.textContent='Por debajo del umbral'; t.textContent='Con menos de 10 % de reducción frente al grupo de control, el copiloto se detiene o se ajusta, y nos quedamos con la base única de ventas (ruta sin IA).'; }
+  else if(S.red < P.meta){ e.className='pill warn'; e.textContent='Entre umbral y meta'; t.textContent='Hay efecto pero no llega a la meta: se ajusta y se vuelve a medir antes de escalar a los 12 analistas.'; }
+  else { e.className='pill ok'; e.textContent='Cumple la meta'; t.textContent='Se escala a los 12 analistas en los meses 4 a 6.'+(S.red>P.meta+0.0001?' Por encima de 20 % es hipótesis: la promesa de 40 % no tiene ensayo.':''); }
+  // fórmula
+  $('formula').innerHTML =
+    `Horas = <b>${S.ana}</b> analistas × <b>${nf(S.hs, S.hs%1?1:0)}</b> h/semana × <b>${P.semanas}</b> semanas × <b>${pct(S.red)}</b> = <b>${nf(r.horas,1)} h/año</b><br>`+
+    `Valor = ${nf(r.horas,1)} h × COP <b>${nf(S.ch)}</b> = <b>${M(r.valor)}/año</b><br>`+
+    `Caja = ${M(r.valor)} × <b>${pct(S.cap)}</b> capturado = <b>${M(r.caja)}</b><br>`+
+    `Meses = ${M(r.inv)} ÷ (${M(r.valor)} ÷ 12) = <b>${isFinite(r.meses)?nf(r.meses,1):'sin recuperación'}</b>`;
+  $('t-prod').textContent = `${nf(r.horas)} horas al año para análisis de más valor. Las horas no son plata por sí solas.`;
+  $('t-caja').textContent = S.cap===0 ? 'Cero hasta que Mercadeo defina el mecanismo: no contratar, quitar horas extra o reasignar de forma medible.' : `${M(r.caja)} al año si se captura ${pct(S.cap)} con un mecanismo explícito.`;
+  document.querySelectorAll('#escenarios .chip').forEach(c=>{const x=ESC[c.dataset.esc]; c.setAttribute('aria-pressed', Math.abs(x.red-S.red)<1e-9 && x.ana===S.ana && S.hs===P.hSemana && S.ch===P.costoHora);});
+}
+$('red').oninput=e=>{S.red=+e.target.value/100; pintarValor();};
+$('ana').oninput=e=>{S.ana=+e.target.value; pintarValor();};
+$('hs').oninput=e=>{S.hs=+e.target.value; pintarValor();};
+$('ch').oninput=e=>{S.ch=+e.target.value; pintarValor();};
+$('cap').oninput=e=>{S.cap=+e.target.value/100; pintarValor();};
+$('cargaFondo').onchange=e=>{S.cargaFondo=e.target.checked; pintarValor();};
+document.querySelectorAll('#escenarios .chip').forEach(c=>c.onclick=()=>{const x=ESC[c.dataset.esc]; S.red=x.red; S.ana=x.ana; S.hs=P.hSemana; S.ch=P.costoHora; pintarValor();});
+$('resetValor').onclick=()=>{Object.assign(S,{red:P.meta, ana:P.analistasObs, hs:P.hSemana, ch:P.costoHora, cap:P.captura, cargaFondo:false}); pintarValor();};
+
+/* ---------- RECURSOS ---------- */
+const AREAS = [['ing','Ingeniería IA'],['dat','Datos'],['seg','Seguridad'],['exp','Expertos de Mercadeo']];
+const COLOR = {c:'var(--green)', p:'var(--blue)', s:'var(--purple)'};
+function usoPorFrente(){
+  const out = {};
+  FRENTES.forEach(f=>{ out[f.id]={ing:0,dat:0,seg:0,exp:0}; });
+  D.pbis.forEach(p=>{ if(!out[p.frente]) return; AREAS.forEach(([k])=>out[p.frente][k]+=p[k][S.esc]); });
+  return out;
+}
+function pintarFrentes(){
+  $('frentes').innerHTML = FRENTES.map(f=>`<label class="tg"><input type="checkbox" id="f-${f.id.replace('/','-')}" data-f="${f.id}" ${S.frentes[f.id]?'checked':''} ${f.fijo?'disabled':''}><span><b>${f.id}</b> · ${esc(f.nombre)}${f.fijo?'<small>Iniciativa elegida: siempre en el plan</small>':''}${f.cond?'<small>Condicionada (S-13): fuera del plan base</small>':''}</span></label>`).join('');
+  $('frentes').querySelectorAll('input').forEach(i=>i.onchange=()=>{S.frentes[i.dataset.f]=i.checked; pintarRec();});
+}
+function pintarRec(){
+  ['ing','dat','seg','exp'].forEach(k=>{ $('d-'+k).value=S.disp[k]; $('od-'+k).textContent=S.disp[k]+' h'; });
+  document.querySelectorAll('#escRec .chip').forEach(c=>c.setAttribute('aria-pressed', +c.dataset.i===S.esc));
+  const uso = usoPorFrente();
+  const activos = FRENTES.filter(f=>S.frentes[f.id]);
+  let excede = [], reservaBaja=false;
+  $('bars').innerHTML = AREAS.map(([k,nom])=>{
+    const total = activos.reduce((a,f)=>a+uso[f.id][k],0);
+    const disp = S.disp[k];
+    const escala = Math.max(total, disp, 1);
+    const segs = activos.map(f=>{const h=uso[f.id][k]; return h?`<i style="width:${h/escala*100}%;background:${COLOR[f.tipo]};opacity:${f.id==='IA-01'?1:.7}" title="${f.id}: ${h} h"></i>`:'';}).join('');
+    const libre = disp-total;
+    if(libre<0) excede.push(nom);
+    if(k==='ing' && libre>=0 && libre<P.reservaMin) reservaBaja=true;
+    const txt = libre<0 ? `<span style="color:var(--bad);font-weight:800">${total} de ${disp} h · faltan ${-libre} h</span>`
+              : `<span>${total} de ${disp} h · ${k==='ing'?'reserva':'libre'} ${libre} h</span>`;
+    return `<div class="bar-row"><div class="head"><b>${nom}</b>${txt}</div><div class="bar">${segs}<span class="cap" style="left:calc(${disp/escala*100}% - 1px)"></span></div></div>`;
+  }).join('');
+  $('legend').innerHTML = `<span><i style="background:var(--green)"></i>Construimos</span><span><i style="background:var(--blue);opacity:.7"></i>Probamos</span><span><i style="background:var(--purple);opacity:.7"></i>Sin IA o comprando</span><span><i style="background:var(--ink);width:3px"></i>Disponible</span>`;
+  const e=$('estadoRec');
+  if(excede.length){ e.className='pill bad'; e.textContent='No cabe: '+excede.join(', '); }
+  else if(reservaBaja){ e.className='pill warn'; e.textContent='Cabe, pero la reserva de ingeniería es menor a '+P.reservaMin+' h'; }
+  else { e.className='pill ok'; e.textContent='Cabe en las 4 restricciones'; }
+  // tabla
+  const tot={ing:0,dat:0,seg:0,exp:0,cop:0};
+  const filas = FRENTES.map(f=>{
+    const u=uso[f.id], on=S.frentes[f.id];
+    const cop = u.ing*P.tarifas.ing + u.dat*P.tarifas.dat + u.seg*P.tarifas.seg;
+    if(on){AREAS.forEach(([k])=>tot[k]+=u[k]); tot.cop+=cop;}
+    return `<tr style="${on?'':'opacity:.45'}"><td><b>${f.id}</b><br><span class="note">${esc(f.nombre)}${on?'':' · fuera del plan'}</span></td>${AREAS.map(([k])=>`<td class="n">${u[k]}</td>`).join('')}<td class="n">${M(cop)}</td></tr>`;
+  }).join('');
+  $('tFrentes').innerHTML = `<thead><tr><th>Frente</th><th class="n">Ing.</th><th class="n">Datos</th><th class="n">Seg.</th><th class="n">Expertos</th><th class="n">Costo imputado</th></tr></thead><tbody>${filas}<tr><td><b>En el plan</b></td>${AREAS.map(([k])=>`<td class="n"><b>${tot[k]}</b></td>`).join('')}<td class="n"><b>${M(tot.cop)}</b></td></tr></tbody>`;
+  pintarFondo();
+}
+function pintarFondo(){
+  $('fondoUsos').innerHTML = D.fondo.map((f,i)=>`<label class="tg"><input type="checkbox" id="fu-${i}" data-i="${i}" ${S.fondo[i]?'checked':''}><span><b>${esc(f.uso.replace(/^\d\.\s*/,''))}</b> · ${M(f.costo)}${f.horas?` (${f.horas} h × COP ${nf(f.tarifa)})`:''}<small>${esc(f.porque)}</small></span></label>`).join('');
+  $('fondoUsos').querySelectorAll('input').forEach(i=>i.onchange=()=>{S.fondo[+i.dataset.i]=i.checked; pintarFondo(); pintarValor();});
+  const total=fondoPedido(), techo=P.techoFondo;
+  const cols=['var(--green)','var(--purple)','var(--grey)','var(--blue)'];
+  $('fondoBar').innerHTML = D.fondo.map((f,i)=>S.fondo[i]?`<i style="width:${f.costo/techo*100}%;background:${cols[i]}" title="${esc(f.uso)}"></i>`:'').join('');
+  $('fondoTxt').textContent = `Pedido ${M(total)} · no se pide ${M(techo-total)}`;
+  const e=$('estadoFondo');
+  if(total>techo){e.className='pill bad'; e.textContent='Supera el techo';} else {e.className='pill ok'; e.textContent='Dentro del techo';}
+}
+['ing','dat','seg','exp'].forEach(k=>$('d-'+k).oninput=e=>{S.disp[k]=+e.target.value; pintarRec();});
+document.querySelectorAll('#escRec .chip').forEach(c=>c.onclick=()=>{S.esc=+c.dataset.i; pintarRec();});
+$('recorte60').onclick=()=>{S.disp.ing=Math.max(100,P.disp.ing-60); pintarRec();};
+$('resetRec').onclick=()=>{S.disp={...P.disp}; S.esc=1; FRENTES.forEach(f=>S.frentes[f.id]=!f.cond); S.fondo=D.fondo.map(f=>f.incluido===1); pintarFrentes(); pintarRec(); pintarValor();};
+
+/* ---------- PORTAFOLIO ---------- */
+const RUTA = {
+  'IA-01':['c','Construimos'],
+  'IA-02':['p','Probamos'],'IA-05':['p','Probamos'],'IA-04':['p','Probamos (condicionada)'],
+  'IA-03':['s','Sin IA'],'IA-15':['s','Sin IA'],'IA-06':['s','Sin IA, con fondo'],'IA-09':['s','Comprar'],'IA-10':['s','Comprar'],
+};
+const RNOM = {c:'Construimos',p:'Probamos',s:'Sin IA o comprando',d:'Después'};
+let pfFiltro = null;
+function rutaDe(id){ return RUTA[id] || ['d','Hoja de ruta']; }
+function pintarPf(){
+  const pf = D.portafolio;
+  const bajo = pf.reduce((a,r)=>a+r[4],0), alto = pf.reduce((a,r)=>a+r[5],0);
+  $('pfSummary').innerHTML =
+    `<div class="kpi k-grey"><span class="l">Esfuerzo pedido</span><span class="v">${nf(bajo)}–${nf(alto)} h</span><span class="s">Rangos de los solicitantes, sin validar</span></div>`+
+    `<div class="kpi k-purple"><span class="l">Capacidad de ingeniería</span><span class="v">${P.disp.ing} h</span><span class="s">${nf(bajo/P.disp.ing,1)} a ${nf(alto/P.disp.ing,1)} veces menos de lo pedido</span></div>`+
+    `<div class="kpi k-green"><span class="l">Familias de problemas</span><span class="v">7</span><span class="s">15 pedidos agrupados por personas, tipo de solución o valor</span></div>`;
+  $('pfRutas').innerHTML = ['c','p','s','d'].map(k=>`<button class="chip" data-r="${k}" aria-pressed="${pfFiltro===k}">${RNOM[k]} (${pf.filter(r=>rutaDe(r[0])[0]===k).length})</button>`).join('');
+  $('pfRutas').querySelectorAll('.chip').forEach(c=>c.onclick=()=>{pfFiltro = pfFiltro===c.dataset.r?null:c.dataset.r; pintarPf();});
+  const q = $('pfBuscar').value.trim().toLowerCase();
+  const filas = pf.filter(r=>(!pfFiltro || rutaDe(r[0])[0]===pfFiltro) && (!q || r.join(' ').toLowerCase().includes(q) || rutaDe(r[0])[1].toLowerCase().includes(q)));
+  $('pfCount').textContent = `${filas.length} de ${pf.length} pedidos`;
+  $('tPf').innerHTML = `<thead><tr><th>Pedido</th><th>Familia</th><th>Patrocinador</th><th class="n">Esfuerzo pedido</th><th>Qué hacemos</th><th>Decisión y ruta</th></tr></thead><tbody>`+
+    filas.map(r=>{const [k,t]=rutaDe(r[0]); return `<tr><td><b>${r[0]}</b><br>${esc(r[1])}</td><td>${esc(r[2])}</td><td>${esc(r[3])}<br><span class="note">${esc(r[6])}</span></td><td class="n">${r[4]}–${r[5]} h</td><td><span class="rt r-${k}">${t}</span></td><td>${esc(r[7])}<br><span class="note">${esc(r[8])}</span></td></tr>`;}).join('')+`</tbody>`;
+}
+$('pfBuscar').oninput=pintarPf;
+
+/* ---------- REGISTRO ---------- */
+let regTipo='supuestos';
+const fmtVal = (v,u)=>{
+  if(typeof v!=='number') return esc(v);
+  if(u==='fracción') return nf(v*100, v*100%1?1:0)+' %';
+  if(/COP/.test(u||'') && Math.abs(v)>=1e6) return M(v);
+  return nf(v, v%1? (Math.abs(v)<10?2:1):0);
+};
+function pintarReg(){
+  document.querySelectorAll('#regTipos .chip').forEach(c=>c.setAttribute('aria-pressed', c.dataset.t===regTipo));
+  const q=$('regBuscar').value.trim().toLowerCase();
+  let head, rows, total;
+  if(regTipo==='supuestos'){
+    total=D.supuestos.length;
+    head='<th>ID</th><th>Supuesto</th><th class="n">Valor</th><th>Fórmula o fuente</th><th>Confiabilidad</th>';
+    rows=D.supuestos.filter(r=>!q||r.join(' ').toLowerCase().includes(q)).map(r=>`<tr><td><b>${r[0]}</b></td><td>${esc(r[1])}</td><td class="n">${fmtVal(r[2],r[3])}${typeof r[2]==='number'&&r[3]!=='fracción'&&!/COP/.test(r[3])?' <span class="note">'+esc(r[3])+'</span>':''}</td><td>${esc(r[4])}</td><td>${esc(r[5])}</td></tr>`);
+  } else if(regTipo==='datos'){
+    total=D.datos.length;
+    head='<th>ID</th><th>Dato</th><th class="n">Valor</th><th>Fuente</th><th>Confiabilidad</th><th>Nota</th>';
+    rows=D.datos.filter(r=>!q||r.join(' ').toLowerCase().includes(q)).map(r=>`<tr><td><b>${r[0]}</b></td><td>${esc(r[1])}</td><td class="n">${fmtVal(r[2],r[3])} <span class="note">${/COP|fracción/.test(r[3])&&!/COP\/h/.test(r[3])?'':esc(r[3])}</span></td><td>${esc(r[4])}</td><td>${esc(r[5])}</td><td class="note">${esc(r[6])}</td></tr>`);
+  } else if(regTipo==='decisiones'){
+    total=D.decisiones.length;
+    head='<th>ID</th><th>Decisión</th><th>Alternativas descartadas</th>';
+    rows=D.decisiones.filter(r=>!q||r.join(' ').toLowerCase().includes(q)).map(r=>`<tr><td><b>${r[0]}</b></td><td>${esc(r[2])}</td><td class="note">${esc(r[3])}</td></tr>`);
+  } else {
+    total=D.pbis.length;
+    head='<th>ID</th><th>Frente</th><th>Qué se hace</th><th>Criterio de aceptación</th><th class="n">Ing.</th><th class="n">Datos</th><th class="n">Seg.</th><th class="n">Exp.</th>';
+    const h=a=>`${a[1]}<br><span class="note">${a[0]}–${a[2]}</span>`;
+    rows=D.pbis.filter(p=>!q||JSON.stringify(p).toLowerCase().includes(q)).map(p=>`<tr style="${p.incluido?'':'opacity:.55'}"><td><b>${p.id}</b></td><td>${p.frente}<br><span class="note">${esc(p.area)}</span></td><td>${esc(p.titulo)}${p.incluido?'':' <span class="note">(fuera del plan base)</span>'}</td><td class="note">${esc(p.criterio)}</td><td class="n">${h(p.ing)}</td><td class="n">${h(p.dat)}</td><td class="n">${h(p.seg)}</td><td class="n">${h(p.exp)}</td></tr>`);
+  }
+  $('regCount').textContent = `${rows.length} de ${total}` + (regTipo==='pbis'?' · horas probables, con mínimo–máximo debajo':'');
+  $('tReg').innerHTML = `<thead><tr>${head}</tr></thead><tbody>${rows.join('')}</tbody>`;
+}
+document.querySelectorAll('#regTipos .chip').forEach(c=>c.onclick=()=>{regTipo=c.dataset.t; pintarReg();});
+$('regBuscar').oninput=pintarReg;
+
+/* ---------- Inicio ---------- */
+pintarFrentes(); pintarRec(); pintarValor(); pintarPf(); pintarReg();
+abrir((location.hash||'#valor').slice(1));
+</script>
